@@ -1,0 +1,17 @@
+
+
+
+scheduler.conf is created in the job directory by the remote (w.r.t. "submit.py") submitting system on stage-in.
+It is a Java-Style .properties <key,value> pair file.
+It contains some properties that the submit system may use to make decisions about how many nodes to request, max walltime, etc.
+
+It seems to contain the following properties:
+
+
+
+KEY					ACCEPTABLE VALUES									COMMENTS
+jobtype				MISSING (No key), "", "direct","mpi"				Are these all?
+mpi_processes		MISSING, "", 1,2,3...								INT: Default to 1 if missing/empty
+threads_per_process	MISSING, "", 1,2,3...								INT: Default to 1
+nodes				MISSING, "", 1,2,3...								Default to 1
+runhours			MISSING, "", [0.0, inf)								FLOAT: Default to queue max?

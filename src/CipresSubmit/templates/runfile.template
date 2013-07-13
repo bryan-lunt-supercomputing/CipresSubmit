@@ -1,0 +1,55 @@
+#!/bin/sh{{! Templated With Moustache. Reset Template Engine Delimiters to some that won't interfere with BASH }}{{=<% %>=}}
+#PBS -q <%queue%>
+#PBS -N <%jobname%>
+#PBS -l walltime=00:<%runtime%>:00
+#PBS -o scheduler_stdout.txt
+#PBS -e scheduler_stderr.txt
+#PBS -W umask=0007
+##PBS -V
+
+#PBS -v QOS=2
+
+#PBS -M  <%email%>
+#PBS -m ae
+#PBS -A <%account%>
+#PBS -l nodes=<%nodes%>:ppn=<%ppn%>
+
+source /etc/profile.d/modules.sh
+
+<% cluster_header %>
+
+export TRUE_JOBDIR=<%jobdir%>
+export TMP_JOBDIR=/scratch/${USER}/${PBS_JOBID}
+
+#STAGE IN
+cp -r ${TRUE_JOBDIR}/* ${TMP_JOBDIR}
+cd ${TMP_JOBDIR}
+
+#STARTUP COPY THREAD
+#The copy thread copies back results every 10.0+-0.5 minutes.
+#The randomization ensures that our disk access becomes smooth even if several jobs were submit at the same moment.
+bash -c 'while [ 1 ] ; do sleep $(( 570 + $RANDOM%60 )); rsync -a --append -v --omit-dir-times ${TMP_JOBDIR}/ ${TRUE_JOBDIR} >> ${TRUE_JOBDIR}/rsynclog.log; done'&
+RPID=$!
+
+
+echo Job starting at $(date) > start.txt
+
+<%#CIPRESNOTIFYURL%>
+curl <%CIPRESNOTIFYURL%>\&status=START
+<%/CIPRESNOTIFYURL%>
+
+export CIPRES_THREADSPP=<%threads_per_process%>
+export CIPRES_NP=<%total_threads%>
+#CIPRES_NP should be ppn*nodes, the total number of cpus for the job. (Can't we get that from PBS?)
+
+<%cmdfile%> 1>stdout.txt 2>stderr.txt
+echo Job finished at $(date) > done.txt
+
+
+#STAGE OUT before telling the portal we are done.
+kill $RPID
+rsync -a --append -v --omit-dir-times ${TMP_JOBDIR}/ ${TRUE_JOBDIR} >> ${TRUE_JOBDIR}/rsynclog.log
+
+<%#CIPRESNOTIFYURL%>
+curl <%CIPRESNOTIFYURL%>\&status=DONE
+<%/CIPRESNOTIFYURL%>

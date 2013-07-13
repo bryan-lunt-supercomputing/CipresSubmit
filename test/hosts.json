@@ -1,0 +1,48 @@
+{
+	"gordon": {
+		"hostlist" : [],
+		"hostregexlist" : "gordon-.*\.sdsc\.edu",
+		"cluster_header" : "
+source /etc/profile.d/modules.sh
+export MODULEPATH=/home/diag/jpg/modulefiles/gordon/applications:$MODULEPATH
+",
+		"queues" : {
+			"shared" : {
+				"name" : "shared",
+				"cores_per_node" : 16,
+				"max_run_time" : 336.0,
+				"cores_increment" : 8,
+				"additional_properties" : {"resources" : ["native", "flash"] }
+			},
+			"normal" : {
+				"name" : "normal",
+				"cores_per_node" : 16,
+				"max_run_time" : 336.0,
+				"additional_properties" : {"resources" : ["native", "flash"] }
+			}
+		}
+	}
+	
+	"trestles": {
+		"hostlist" : [],
+		"hostregexlist" : "trestles-.*\.sdsc\.edu",
+		"cluster_header" : "
+source /etc/profile.d/modules.sh
+",
+		"queues" : {
+			"shared" : {
+				"name" : "shared",
+				"cores_per_node" : 16,
+				"max_run_time" : 336.0,
+				"cores_increment" : 8,
+				"additional_properties" : {"resources" : [] }
+			},
+			"normal" : {
+				"name" : "normal",
+				"cores_per_node" : 16,
+				"max_run_time" : 336.0,
+				"additional_properties" : {"resources" : [] }
+			}
+		}
+	}
+}

@@ -1,0 +1,49 @@
+#!/bin/sh
+#{{! This is a template engine comment: On this line, we are setting the template engine to use different delimiters. (This line shoudl end up blank in the final file) }} {{=<% %>=}}
+#PBS -q <%queue%>
+#PBS -N <%jobname%>
+#PBS -l walltime=00:<%runtime%>:00
+#PBS -o scheduler_stdout.txt
+#PBS -e scheduler_stderr.txt
+#PBS -W umask=0007
+##PBS -V
+
+#PBS -v QOS=2
+
+#PBS -M  <%email%>
+#PBS -m ae
+#PBS -A <%account%>
+#PBS -l nodes=<%nodes%>:ppn=<%ppn%>
+
+source /etc/profile.d/modules.sh
+
+export TRUE_JOBDIR=<%jobdir%>
+export TMP_JOBDIR=/scratch/${USER}/${PBS_JOBID}
+
+#STAGE IN
+cp -r ${TRUE_JOBDIR}/* ${TMP_JOBDIR}
+cd ${TMP_JOBDIR}
+
+#STARTUP COPY THREAD
+#A Proof Of Concept, we will randomize the sleep time later:
+#Yes, I know that I am redirecting into the file rsynclog.log. But because it sleeps between runs, that should be fine.
+bash -c "while [ 1 ] ; do sleep 120; rsync -a --append -v --omit-dir-times ${TMP_JOBDIR}/ ${TRUE_JOBDIR} >> ${TRUE_JOBDIR}/rsynclog.log; done"&
+RPID=$!
+
+
+echo Job starting at `date` > start.txt
+curl <%CIPRESNOTIFYURL%>\&status=START
+export CIPRES_THREADSPP=<%threads_per_process%>
+export CIPRES_NP=<%total_threads%>
+#CIPRES_NP should be ppn*nodes, the total number of cpus for the job. (Can't we get that from PBS?)
+
+<%cmdfile%> 1>stdout.txt 2>stderr.txt
+echo Job finished at `date` > done.txt
+
+
+#STAGE OUT before telling the portal we are done.
+kill $RPID
+rsync -a --append -v --omit-dir-times ${TMP_JOBDIR}/ ${TRUE_JOBDIR} >> ${TRUE_JOBDIR}/rsynclog.log
+
+
+curl <%CIPRESNOTIFYURL%>\&status=DONE
