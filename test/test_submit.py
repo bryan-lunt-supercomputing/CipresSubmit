@@ -5,24 +5,27 @@ Created on Jul 12, 2013
 '''
 import unittest
 
-import CipresSubmit.SchedulerEnv as SEnv
+CONFFILE ="./scheduler.conf"
 
 class Test(unittest.TestCase):
 
 
 	def setUp(self):
-		pass
+		f = file(CONFFILE,"w")
+		f.write("""runhours=0.5
+mpi_processes=2 
+jobtype=mpi
+nodes=1
+""")
+		f.close()
 
 
 	def tearDown(self):
 		pass
 
 
-	def testLoad(self):
-		"""
-		Tests to see if we can load the queue information.
-		"""
-		self.scheduler = SEnv.get_current_host_config()
+	def testSubmit(self):
+		pass
 
 
 if __name__ == "__main__":

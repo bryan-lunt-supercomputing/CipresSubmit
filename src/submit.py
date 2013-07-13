@@ -9,6 +9,7 @@ import sys
 
 import CipresSubmit.pyjavaproperties as Props
 from CipresSubmit.SubmitLogger import SubmitLogger
+import CipresSubmit.SchedulerEnv as SEnv
 
 def main(argv=sys.argv):
 	"""
@@ -25,9 +26,11 @@ def main(argv=sys.argv):
     Returns 2 for the specific error of queue limit exceeded.
     """
 	
-	#Load Settings
+	#Load Settings from a well-known settigns file.
+	#TODO: Load Global Settings. The hosts.json file might be elsewhere.
+	cluster_info = SEnv.get_current_host_config()
 	
-	
+	#now we can parse the input, because we have a default account.
 	splits = argv[1].split("=", 1)
 	if (len(splits) == 2 and splits[0] == "id"):
         account = splits[1]
