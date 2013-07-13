@@ -57,7 +57,7 @@ def get_current_host_config(config=None,current_host=None):
 		fullnames=hostdata.get('hostlist',list())
 		regexes = hostdata.get('hostregexlist',list())
 		
-		if len(fullnames) + len(regexes) > 0:
+		if len(fullnames) + len(regexes) == 0:
 			raise Exception("No 'hostlist' or 'hostregexlist' for host '%s' in 'hosts.json' file." % hostname)
 		
 		#See if this host is one of the listed hosts
