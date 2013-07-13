@@ -23,14 +23,14 @@ def read_host_config(file=default_hosts_config):
 	
 	The expected format of the configuration file is:
 	
-	{ 'host_descriptive_name' : {
+	{ '<host_descriptive_name>' : {
 		'hostlist' : [ 'host1', 'host2', 'host3' ],
 		'hostregexlist' : ['A REGEX that will match the host'
 		'cluster_header' : '''STRING : additional header line to put into runfile.template'''
 		'queues' : {
-			'descriptive_name' : {
-				'name' : 'normal',
-				'cores_per_node' : 16
+			'<descriptive_name>' : {
+				'queuename' : '<normal, shared, etc>',
+				'cores_per_node' : <int>, number of cores on each node.
 				'max_run_time' : <FLOAT Hours>
 				'cores_increment' : <int>, minimum number of cores we can order, treat as the same as cores_per_node if not available.
 				"max_cores" : 5000,
