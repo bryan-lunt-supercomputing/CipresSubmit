@@ -5,17 +5,17 @@
 		"cluster_header" : "\n source /etc/profile.d/modules.sh \n export MODULEPATH=/home/diag/jpg/modulefiles/gordon/applications:$MODULEPATH \n",
 		"queues" : {
 			"shared" : {
-				"name" : "shared",
+				"queuename" : "shared",
 				"cores_per_node" : 16,
 				"max_run_time" : 336.0,
 				"cores_increment" : 8,
-				"additional_properties" : {"resources" : ["native", "flash"] }
+				"additional_properties" : {"node_properties" : "native:flash" }
 			},
 			"normal" : {
-				"name" : "normal",
+				"queuename" : "normal",
 				"cores_per_node" : 16,
 				"max_run_time" : 336.0,
-				"additional_properties" : {"resources" : ["native", "flash"] }
+				"additional_properties" : {"node_properties" : "native:flash" }
 			}
 		}
 	},
@@ -25,17 +25,37 @@
 		"cluster_header" : "\n source /etc/profile.d/modules.sh \n",
 		"queues" : {
 			"shared" : {
-				"name" : "shared",
+				"queuename" : "shared",
 				"cores_per_node" : 16,
 				"max_run_time" : 336.0,
 				"cores_increment" : 8,
-				"additional_properties" : {"resources" : [] }
+				"additional_properties" : { }
 			},
 			"normal" : {
-				"name" : "normal",
+				"queuename" : "normal",
 				"cores_per_node" : 16,
 				"max_run_time" : 336.0,
-				"additional_properties" : {"resources" : [] }
+				"additional_properties" : { }
+			}
+		}
+	},
+	"laptop": {
+		"hostlist" : [],
+		"hostregexlist" : ["client.*\\.sdsc\\.edu"],
+		"cluster_header" : "\n source /etc/profile.d/modules.sh \n",
+		"queues" : {
+			"shared" : {
+				"queuename" : "sharedlaptop",
+				"cores_per_node" : 2,
+				"max_run_time" : 336.0,
+				"cores_increment" : 1,
+				"additional_properties" : {"node_properties" : "native:flash" }
+			},
+			"normal" : {
+				"queuename" : "normallaptop",
+				"cores_per_node" : 2,
+				"max_run_time" : 336.0,
+				"additional_properties" : {"node_properties" : "native:flash" }
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 #!/bin/sh
 #{{! This is a template engine comment: On this line, we are setting the template engine to use different delimiters. (This line shoudl end up blank in the final file) }} {{=<% %>=}}
-#PBS -q <%queue%>
+#PBS -q <%queuename%>
 #PBS -N <%jobname%>
 #PBS -l walltime=00:<%runtime%>:00
 #PBS -o scheduler_stdout.txt

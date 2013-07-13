@@ -1,4 +1,7 @@
 '''
+This file creates some basic abstraction on the hosts/queues configuration so that we can replace with JSON, YAML, XML, whatever, without that affecting the rest of the program.
+
+
 Created on Jul 12, 2013
 
 @author: lunt
@@ -29,7 +32,7 @@ def read_host_config(file=default_hosts_config):
 				'name' : 'normal',
 				'cores_per_node' : 16
 				'max_run_time' : <FLOAT Hours>
-				'cores_increment' : <int, minimum number of cores we can order.
+				'cores_increment' : <int>, minimum number of cores we can order, treat as the same as cores_per_node if not available.
 				"max_cores" : 5000,
 				'additional_properties' : { A dictionary of additional queue properties that will get passed to the submit system.}
 				}
@@ -44,6 +47,24 @@ def read_host_config(file=default_hosts_config):
 	retval = json.load(f)
 	f.close()
 	return retval
+
+def create_host_objects(hostname,hostdata):
+	"""
+	Transform the config-file representation into a more object-oriented representation, apply defaults, cascading, etc.
+	"""
+	new_hostdata = dict()
+	new_hostdata.update(hostdata)
+	
+	new_queues = dict()
+	for dname, readqueue in new_hostdata['queues'].iteritems():
+		newqueue = dict()
+		newqueue.update(readqueue)
+		if not newqueue.has_key('cores_increment'):
+			newqueue['cores_increment'] = newqueue['cores_per_node']
+		new_queues[dname] = newqueue
+	new_hostdata['queues'] = new_queues
+	
+	return new_hostdata
 
 def get_current_host_config(config=None,current_host=None):
 	if config == None:
@@ -72,7 +93,16 @@ def get_current_host_config(config=None,current_host=None):
 		if matches == False:
 			continue
 		#OK, if we made it here, we know what host we are!
-		return hostdata
+		return create_host_objects(hostname,hostdata)
 	return None
 		
-		
+
+def choose_queue(ncpu,host_config):
+	"""
+	Pass this a host-config and the number of CPUs you want, and it will choose you the cheapest queue.
+	"""
+	
+	#TODO: Implement this.
+	import pdb
+	pdb.set_trace()
+	return host_config['queues']['normal'], 1, 16

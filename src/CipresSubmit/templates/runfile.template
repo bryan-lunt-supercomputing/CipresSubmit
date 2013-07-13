@@ -1,5 +1,5 @@
 #!/bin/sh{{! Templated With Moustache. Reset Template Engine Delimiters to some that won't interfere with BASH }}{{=<% %>=}}
-#PBS -q <%queue%>
+#PBS -q <%queuename%>
 #PBS -N <%jobname%>
 #PBS -l walltime=00:<%runtime%>:00
 #PBS -o scheduler_stdout.txt
@@ -8,11 +8,14 @@
 ##PBS -V
 
 #PBS -v QOS=2
-
+<%#email%>
 #PBS -M  <%email%>
 #PBS -m ae
+<%/email%>
+<%#account%>
 #PBS -A <%account%>
-#PBS -l nodes=<%nodes%>:ppn=<%ppn%>
+<%/account%>
+#PBS -l nodes=<%nodes%>:ppn=<%ppn%><%#node_properties%>:<%node_properties%><%/node_properties%>
 
 source /etc/profile.d/modules.sh
 

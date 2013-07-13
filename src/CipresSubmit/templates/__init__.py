@@ -14,11 +14,11 @@ User Templates must expect/use these:
 					: It is discouraged to use this in any kind of per-job way.
 	
 	CIPRESNOTIFYURL
-	threads_per_process
-	total_threads
+		threads_per_process
+		total_threads
 	
 	command
-	queue
+	queuename
 	jobname
 	runtime : Given as a number of minutes
 	email
