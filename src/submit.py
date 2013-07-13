@@ -25,7 +25,7 @@ def main(argv=sys.argv):
     Returns 1 with multiline error message on stdout if error.
     Returns 2 for the specific error of queue limit exceeded.
     """
-	
+		
 	#Load Settings from a well-known settigns file.
 	#TODO: Load Global Settings. The hosts.json file might be elsewhere.
 	cluster_info = SEnv.get_current_host_config()
@@ -33,13 +33,13 @@ def main(argv=sys.argv):
 	#now we can parse the input, because we have a default account.
 	splits = argv[1].split("=", 1)
 	if (len(splits) == 2 and splits[0] == "id"):
-        account = splits[1]
-        url = argv[2]
-        cmdline = argv[3:]
-    else:
-        account = None
-        url = argv[1]
-        cmdline = argv[2:]
+		account = splits[1]
+		url = argv[2]
+		cmdline = argv[3:]
+	else:
+		account = None
+		url = argv[1]
+		cmdline = argv[2:]
 	
 	
 	sub_log = SubmitLogger()
