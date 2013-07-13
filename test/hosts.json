@@ -1,11 +1,8 @@
 {
 	"gordon": {
 		"hostlist" : [],
-		"hostregexlist" : "gordon-.*\.sdsc\.edu",
-		"cluster_header" : "
-source /etc/profile.d/modules.sh
-export MODULEPATH=/home/diag/jpg/modulefiles/gordon/applications:$MODULEPATH
-",
+		"hostregexlist" : ["gordon-.*\\.sdsc\\.edu"],
+		"cluster_header" : "\n source /etc/profile.d/modules.sh \n export MODULEPATH=/home/diag/jpg/modulefiles/gordon/applications:$MODULEPATH \n",
 		"queues" : {
 			"shared" : {
 				"name" : "shared",
@@ -21,14 +18,11 @@ export MODULEPATH=/home/diag/jpg/modulefiles/gordon/applications:$MODULEPATH
 				"additional_properties" : {"resources" : ["native", "flash"] }
 			}
 		}
-	}
-	
+	},
 	"trestles": {
 		"hostlist" : [],
-		"hostregexlist" : "trestles-.*\.sdsc\.edu",
-		"cluster_header" : "
-source /etc/profile.d/modules.sh
-",
+		"hostregexlist" : ["trestles-.*\\.sdsc\\.edu"],
+		"cluster_header" : "\n source /etc/profile.d/modules.sh \n",
 		"queues" : {
 			"shared" : {
 				"name" : "shared",
