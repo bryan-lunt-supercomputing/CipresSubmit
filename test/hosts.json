@@ -2,6 +2,7 @@
 	"gordon": {
 		"hostlist" : [],
 		"hostregexlist" : ["gordon-.*\\.sdsc\\.edu"],
+		"account" : "TG-DEB090011",
 		"cluster_header" : "\n source /etc/profile.d/modules.sh \n export MODULEPATH=/home/diag/jpg/modulefiles/gordon/applications:$MODULEPATH \n",
 		"queues" : {
 			"shared" : {
@@ -22,6 +23,7 @@
 	"trestles": {
 		"hostlist" : [],
 		"hostregexlist" : ["trestles-.*\\.sdsc\\.edu"],
+		"account" : "TG-DEB090011",
 		"cluster_header" : "\n source /etc/profile.d/modules.sh \n",
 		"queues" : {
 			"shared" : {
@@ -42,6 +44,7 @@
 	"laptop": {
 		"hostlist" : [],
 		"hostregexlist" : ["client.*\\.sdsc\\.edu"],
+		"account" : "TG-DEB090011",
 		"cluster_header" : "\n source /etc/profile.d/modules.sh \n",
 		"queues" : {
 			"shared" : {

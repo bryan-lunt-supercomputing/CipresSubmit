@@ -11,8 +11,6 @@ import CipresSubmit.pyjavaproperties as Props
 from CipresSubmit.SubmitLogger import SubmitLogger
 import CipresSubmit.SchedulerEnv as SEnv
 
-import CipresSubmit.plugins as CipresPlugins
-
 def main(argv=sys.argv):
 	"""
     Usage is:
@@ -28,10 +26,8 @@ def main(argv=sys.argv):
     Returns 2 for the specific error of queue limit exceeded.
     """
 		
-	#Load Settings from a well-known settings file.
-	#in the meantime
-	
-	global_settings = {'plugin_path':'./plugins', 'account':'TG-DEB090011'}
+	#TODO: Load Settings from a well-known settings file.
+	global_settings = {}
 	
 	#TODO: Load Global Settings. The hosts.json file might be elsewhere.
 	cluster_info = SEnv.get_current_host_config()
@@ -43,7 +39,7 @@ def main(argv=sys.argv):
 		url = argv[2]
 		cmdline = argv[3:]
 	else:
-		account = cluster_info.get('account',global_settings.get('account',None))
+		account = cluster_info.get('account',None)
 		url = argv[1]
 		cmdline = argv[2:]
 	
@@ -70,14 +66,6 @@ def main(argv=sys.argv):
 	except Exception as e:
 			sub_log.submit_fail(e.message)
 			exit(1)
-	
-	#By here, we are guaranteed a valid "submitter" object.
-	
-	#TODO: These need to be wrapped in some exception handling / logging.
-	input_valid = submitter.validate()
-	#TOOD: If the input is invalid, fail.
-	
-	num_cpus	= submitter.parallel_rules()
 	
 	#TODO: This is where the submit system will choose a queue for the submitter, set nodes, set ppn, etc, etc
 	#TODO: It should also extend job_properties with that queue's "additional_properties" 
