@@ -7,6 +7,28 @@ This is modelled as closely as possible to the Java original.
 Created - Anand B Pillai <abpillai@gmail.com>
 
 SEE: https://bitbucket.org/jnoller/pyjavaproperties/src
+
+This is forked from an original at <http://code.activestate.com/recipes/496795/>
+
+LICENSE
+It would appear that the authors license the code under the PSF license: <http://docs.python.org/license.html>
+
+Quoth:
+
+'''
+License
+------------------
+As with all ASPN recipes not otherwise licensed prior to July 15, 2008 on
+aspn.activestate.com, the original recipe is under PSF License. For more
+information, see the ASPN terms of service here:
+
+<http://code.activestate.com/help/terms/>
+
+While the licensing under the PSF license is sub-optimal, it is what it is. See
+<http://docs.python.org/license.html> for more information about the PSF
+license.
+'''
+
 """
 
 import sys,os
