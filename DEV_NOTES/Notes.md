@@ -1,5 +1,5 @@
 
-# LEFT To Do #
+# Left To Do #
 Basically everything.
 
 We can now load plugins for jobs, based on the job's command line, and/or the scheduler.conf properties file.
@@ -24,4 +24,7 @@ I decided to use JSON because it is:
 The upside of XML would be that we can more easily enforce a schema...
 
 
-## cores_per_node ##
+### cores_per_node ###
+
+This is included per-queue rather than per host because some queues (vSMP) may have a different number of cores on a node.
+

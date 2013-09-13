@@ -19,10 +19,21 @@
 
 source /etc/profile.d/modules.sh
 
-#execute a per-cluster header
 <% cluster_header %>
 
-cd <%jobdir%>
+export TRUE_JOBDIR=<%jobdir%>
+export TMP_JOBDIR=/scratch/${USER}/${PBS_JOBID}
+
+#STAGE IN
+cp -r ${TRUE_JOBDIR}/* ${TMP_JOBDIR}
+cd ${TMP_JOBDIR}
+
+#STARTUP COPY THREAD
+#The copy thread copies back results every 10.0+-0.5 minutes.
+#The randomization ensures that our disk access becomes smooth even if several jobs were submit at the same moment.
+bash -c 'while [ 1 ] ; do sleep $(( 570 + $RANDOM%60 )); rsync -a --append -v --omit-dir-times ${TMP_JOBDIR}/ ${TRUE_JOBDIR} >> ${TRUE_JOBDIR}/rsynclog.log; done'&
+RPID=$!
+
 
 echo Job starting at $(date) > start.txt
 
@@ -35,8 +46,12 @@ export CIPRES_NP=<%total_threads%>
 #CIPRES_NP should be ppn*nodes, the total number of cpus for the job. (Can't we get that from PBS?)
 
 <%cmdfile%> 1>stdout.txt 2>stderr.txt
-
 echo Job finished at $(date) > done.txt
+
+
+#STAGE OUT before telling the portal we are done.
+kill $RPID
+rsync -a --append -v --omit-dir-times ${TMP_JOBDIR}/ ${TRUE_JOBDIR} >> ${TRUE_JOBDIR}/rsynclog.log
 
 <%#CIPRESNOTIFYURL%>
 curl <%CIPRESNOTIFYURL%>\&status=DONE

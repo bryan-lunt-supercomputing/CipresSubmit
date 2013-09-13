@@ -12,7 +12,7 @@ import re
 
 default_hosts_config="./hosts.json"
 
-def read_host_config(file=default_hosts_config):
+def read_host_config(infile=default_hosts_config):
 	"""
 	Read a JSON configuration* file describing hosts and the queues on those hosts.
 	
@@ -43,7 +43,7 @@ def read_host_config(file=default_hosts_config):
 	
 	
 	"""
-	f = open(file)
+	f = open(infile)
 	retval = json.load(f)
 	f.close()
 	return retval
@@ -67,13 +67,16 @@ def create_host_objects(hostname,hostdata):
 	return new_hostdata
 
 def get_current_host_config(config=None,current_host=None):
+	"""
+	Figures out what host the program is running on, and reads the appropriate section out of the configuration.
+	"""
 	if config == None:
 		config = read_host_config()
 	
 	if current_host == None:
 		current_host = platform.node()
 	
-	for hostname, hostdata in config.iteritems():
+	for hostname, hostdata in config['hosts'].iteritems():
 		matches=False
 		fullnames=hostdata.get('hostlist',list())
 		regexes = hostdata.get('hostregexlist',list())

@@ -1,0 +1,14 @@
+<cipres-submit>
+	<global>
+		<account>
+			<accountstr>TG-DEB090011</accountstr>
+		</account>
+	</global>
+	<resources>
+		<!-- You can put resources here directly, or includes
+			<include file="path/to/one/resource.xml" />
+			<include dir="path/to/a/folder/where/all/xmls/get/parsed" />
+		 -->
+		<include dir="./hosts"/>
+	</resources>
+</cipres-submit>
