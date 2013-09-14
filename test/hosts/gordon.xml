@@ -1,4 +1,5 @@
-<resource name="gordon">
+<?xml version="1.0" encoding="UTF-8"?>
+<resource name="gordon" xmlns="http://www.phylog.org/submit/resource">
 	<hosts>
 	    <!-- <host name="gordon-ln1.sdsc.edu"/> -->
 		<host pattern="gordon-.*\.sdsc\.edu"/>
@@ -33,6 +34,8 @@
 			<queue id="normal" name="normal">
 				<cores-per-node>16</cores-per-node> <!-- cores-increment defaults to the same value as cores-per-node if not given. -->
 				<max-run-hours>336.0</max-run-hours>
+				<env-vars>
+				</env-vars>
 				<node-properties>
 					<property>native</property>
 					<property>flash</property>

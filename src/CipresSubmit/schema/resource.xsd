@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.phylog.org/submit/resource" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cipres="http://www.phylog.org/submit/resource">
+
+    
+    <complexType name="ResourceType">
+    	<sequence>
+    		<element name="hosts" maxOccurs="1" minOccurs="1">
+    			<complexType>
+    				<sequence>
+    					<element name="host" maxOccurs="unbounded"
+    						minOccurs="1">
+    						<complexType>
+    							<attribute name="pattern"
+    								type="string">
+    							</attribute>
+    							<attribute name="name" type="string"></attribute>
+    						</complexType>
+    					</element>
+    				</sequence>
+    			</complexType>
+    		</element>
+    		<element name="account" type="cipres:AccountType"
+    			maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="batch-system"
+    			type="cipres:batch-systemType" maxOccurs="1" minOccurs="1">
+    		</element>
+    	</sequence>
+    	<attribute name="name" type="string"></attribute>
+    </complexType>
+
+
+    
+
+    <complexType name="AccountType">
+    	<sequence>
+    		<element name="accountstr" type="string" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="batch-systemType">
+    	<sequence>
+    		<element name="templates" maxOccurs="1" minOccurs="1">
+    			<complexType>
+    				<sequence>
+    					<element name="template" type="cipres:TemplateType" maxOccurs="unbounded" minOccurs="0"></element>
+    				</sequence>
+    			</complexType>
+    		</element>
+    		<element name="queues" maxOccurs="1" minOccurs="1">
+    			<complexType>
+    				<sequence>
+    					<element name="queue" type="cipres:queueType" maxOccurs="unbounded" minOccurs="0"></element>
+    				</sequence>
+    			</complexType></element>
+    	</sequence>
+    	<attribute name="type" type="string"></attribute>
+    </complexType>
+
+
+    <complexType name="TemplateType">
+    	<sequence>
+    		<element name="param" type="cipres:TemplateParamType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    	<attribute name="name" type="string"></attribute>
+    	<attribute name="filename" type="string"></attribute>
+    </complexType>
+
+    <complexType name="queueType">
+    	<sequence>
+    		<element name="cores-per-node" maxOccurs="1"
+    			minOccurs="1">
+    			<simpleType>
+    				<restriction base="int">
+    					<minInclusive value="1"></minInclusive>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="cores-increment" maxOccurs="1"
+    			minOccurs="0">
+    			<simpleType>
+    				<restriction base="int">
+    					<minInclusive value="1"></minInclusive>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="max-run-hours" maxOccurs="1" minOccurs="0">
+    			<simpleType>
+    				<restriction base="float">
+    					<minInclusive value="0.0"></minInclusive>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="env-vars" maxOccurs="1" minOccurs="1">
+    			<complexType>
+    				<sequence>
+    					<element name="env" type="cipres:envType"
+    						maxOccurs="unbounded" minOccurs="0">
+    					</element>
+    				</sequence>
+    			</complexType>
+    		</element>
+    		<element name="node-properties" maxOccurs="1" minOccurs="1">
+    			<complexType>
+    				<sequence>
+    					<element name="property" type="string" maxOccurs="unbounded" minOccurs="0"></element>
+    				</sequence>
+    			</complexType></element>
+    	</sequence>
+    	<attribute name="id" type="string"></attribute>
+    	<attribute name="name" type="string"></attribute>
+    </complexType>
+
+
+
+    <complexType name="envType">
+    	<simpleContent>
+    		<extension base="string">
+    			<attribute name="name" type="string"></attribute>
+    		</extension>
+    	</simpleContent>
+    </complexType>
+
+    <complexType name="TemplateParamType">
+    	<simpleContent>
+    		<extension base="string">
+    			<attribute name="name" type="string"></attribute>
+    		</extension>
+    	</simpleContent>
+    </complexType>
+
+    <element name="resource" type="cipres:ResourceType"></element>
+    
+</schema>
