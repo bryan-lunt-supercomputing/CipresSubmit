@@ -25,6 +25,14 @@ def get_batch_instance(type="PBS",resource=None):
 	
 	return retval
 
+class NotSubmit(Exception):
+	def __init__(self,message):
+		super(NotSubmit,self).__init__(message)
+
+class TooManyJobs(NotSubmit):
+	def __init__(self,message):
+		super(TooManyJobs,self).__init__(message)
+
 class BatchEnvironment(object):
 	"""
 	Abstract Base class of all batch environment objects
@@ -56,7 +64,7 @@ class BatchEnvironment(object):
 		jobtype = job_properties.get('jobtype','serial')
 		mpi_processes = int(job_properties.get('mpi_processes',1))
 		threads_per_process = int(job_properties.get('threads_per_process',1))
-		node_exclusive = job_properties.get('node_exclusive',False)
+		node_exclusive = int(job_properties.get('node_exclusive',0))
 		
 		
 		

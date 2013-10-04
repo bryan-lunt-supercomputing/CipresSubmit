@@ -15,6 +15,7 @@ import CipresSubmit.SubmitConfig as SConfig
 import CipresSubmit.schema as SSchema
 import CipresSubmit.templates as STemp
 import CipresSubmit.SubmitEnv as SEnv
+from CipresSubmit.SubmitEnv.__init__ import TooManyJobs
 
 import stat
 
@@ -97,7 +98,7 @@ def main(argv=sys.argv):
 	#CHOOSE THE QUEUE
 	#
 	myBatchSystem = SEnv.get_batch_instance(resource=resource_configuration)
-	the_queue, nodes, ppn = myBatchSystem.choose_queue(job_properties)
+	the_queue, nodes, ppn = myBatchSystem.choose_queue(scheduler_properties)
 	scheduler_properties['queue'] = the_queue #Gets queuename and node_properties, though we might want to edit node_properties? (For example, some jobs might not need local storage, so asking for flash..
 	scheduler_properties['nodes'] = nodes
 	scheduler_properties['ppn'] = ppn
@@ -133,14 +134,19 @@ def main(argv=sys.argv):
 	
 	
 	#Actually submit the job, which should be the first template.
-	myBatchSystem.submit(created_files[0], scheduler_properties)
+	jobid=None
+	try:
+		jobid = myBatchSystem.submit(created_files[0], scheduler_properties)
+	except TooManyJobs as too:
+		sub_log.log(too.message,"ERROR")
+		sub_log.submit_fail("There were too many jobs enqueued.",status=2,terminate=True)
+	except Exception as e:
+		sub_log.log(e.message,"ERROR")
+		sub_log.submit_fail("There was some error submitting the job",terminate=True)
+		
 	
-	
-	
-	
-	#TODO: How do we get back the qsub status? as an Exception, or a return type?
-	#TODO: How do we get back the jobid? As another return value or, with another method call to the submitter?
-
+	sub_log.jobid = jobid.strip().split('.')[0]
+	sub_log.submit_success()
 
 
 if __name__ == "__main__":

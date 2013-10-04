@@ -6,6 +6,11 @@ Created on Oct 3, 2013
 
 import resource as R
 
+import logging 
+logger = logging.getLogger("pyxb.binding.basis")
+logger.addHandler(logging.NullHandler())
+
+
 def read_resource_file(filename):
 	with open(filename) as infile:
 		return R.CreateFromDocument(infile.read())

@@ -1,3 +1,7 @@
+"""
+THis should be modified to be a python "logging" logger.
+"""
+
 import os
 import urllib
 import json

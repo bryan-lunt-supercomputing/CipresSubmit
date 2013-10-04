@@ -2,25 +2,22 @@
 #PBS -q <%queue.name%>
 #PBS -N <%JobHandle%>
 #PBS -l walltime=00:<%runminutes%>:00
+#PBS -l nodes=<%nodes%>:ppn=<%ppn%><%#queue.node_properties%>:<%.%><%/queue.node_properties%>
 #PBS -o scheduler_stdout.txt
 #PBS -e scheduler_stderr.txt
 #PBS -W umask=0007
-##PBS -V
-
 <%#env_vars_string %>
 #PBS -v <%env_vars_string%>
 <%/env_vars_string %>
-
 <%#job_status_email%>
 #PBS -M <%job_status_email%>
 #PBS -m ae
 <%/job_status_email%>
-
 <%#account%>
 #PBS -A <%account%>
 <%/account%>
 
-#PBS -l nodes=<%nodes%>:ppn=<%ppn%><%#queue.node_properties%>:<%.%><%/queue.node_properties%>
+
 
 source /etc/profile.d/modules.sh
 
