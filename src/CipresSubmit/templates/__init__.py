@@ -39,3 +39,9 @@ Created on Jul 3, 2013
 
 @author: lunt
 '''
+
+import pystache
+
+def execute_template(template_string, *args, **kwargs):
+	therenderer = pystache.Renderer()
+	return therenderer.render(template_string, *args, **kwargs)

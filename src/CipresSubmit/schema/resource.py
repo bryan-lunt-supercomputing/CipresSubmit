@@ -1,7 +1,7 @@
 # ./resource.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:c6d1b822a1552c7c3e6a47edb3eca29b0d3d32d1
-# Generated 2013-10-03 18:44:58.564441 by PyXB version 1.2.2
+# Generated 2013-10-04 14:26:11.700012 by PyXB version 1.2.2
 # Namespace http://www.phylog.org/submit/resource
 
 import pyxb
@@ -13,7 +13,7 @@ import pyxb.utils.domutils
 import sys
 
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:9389b8f0-2c96-11e3-ba2f-002241226b3f')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:971e7f26-2d3b-11e3-bea1-002241226b3f')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.2'
@@ -87,15 +87,26 @@ STD_ANON_._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value_datatype=
 STD_ANON_._InitializeFacetMap(STD_ANON_._CF_minInclusive)
 
 # Atomic simple type: [anonymous]
-class STD_ANON_2 (pyxb.binding.datatypes.float):
+class STD_ANON_2 (pyxb.binding.datatypes.int):
 
     """An atomic simple type."""
 
     _ExpandedName = None
     _XSDLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 88, 7)
     _Documentation = None
-STD_ANON_2._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value_datatype=STD_ANON_2, value=pyxb.binding.datatypes.float(0.0))
+STD_ANON_2._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value_datatype=STD_ANON_2, value=pyxb.binding.datatypes.int(1))
 STD_ANON_2._InitializeFacetMap(STD_ANON_2._CF_minInclusive)
+
+# Atomic simple type: [anonymous]
+class STD_ANON_3 (pyxb.binding.datatypes.float):
+
+    """An atomic simple type."""
+
+    _ExpandedName = None
+    _XSDLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 95, 7)
+    _Documentation = None
+STD_ANON_3._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value_datatype=STD_ANON_3, value=pyxb.binding.datatypes.float(0.0))
+STD_ANON_3._InitializeFacetMap(STD_ANON_3._CF_minInclusive)
 
 # Complex type {http://www.phylog.org/submit/resource}ResourceType with content type ELEMENT_ONLY
 class ResourceType (pyxb.binding.basis.complexTypeDefinition):
@@ -406,22 +417,29 @@ class queueType (pyxb.binding.basis.complexTypeDefinition):
     cores_increment = property(__cores_increment.value, __cores_increment.set, None, None)
 
     
+    # Element {http://www.phylog.org/submit/resource}max-nodes uses Python identifier max_nodes
+    __max_nodes = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, u'max-nodes'), 'max_nodes', '__httpwww_phylog_orgsubmitresource_queueType_httpwww_phylog_orgsubmitresourcemax_nodes', False, pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 87, 6), )
+
+    
+    max_nodes = property(__max_nodes.value, __max_nodes.set, None, None)
+
+    
     # Element {http://www.phylog.org/submit/resource}max-run-hours uses Python identifier max_run_hours
-    __max_run_hours = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, u'max-run-hours'), 'max_run_hours', '__httpwww_phylog_orgsubmitresource_queueType_httpwww_phylog_orgsubmitresourcemax_run_hours', False, pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 87, 6), )
+    __max_run_hours = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, u'max-run-hours'), 'max_run_hours', '__httpwww_phylog_orgsubmitresource_queueType_httpwww_phylog_orgsubmitresourcemax_run_hours', False, pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 94, 6), )
 
     
     max_run_hours = property(__max_run_hours.value, __max_run_hours.set, None, None)
 
     
     # Element {http://www.phylog.org/submit/resource}env-vars uses Python identifier env_vars
-    __env_vars = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, u'env-vars'), 'env_vars', '__httpwww_phylog_orgsubmitresource_queueType_httpwww_phylog_orgsubmitresourceenv_vars', False, pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 94, 6), )
+    __env_vars = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, u'env-vars'), 'env_vars', '__httpwww_phylog_orgsubmitresource_queueType_httpwww_phylog_orgsubmitresourceenv_vars', False, pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 101, 6), )
 
     
     env_vars = property(__env_vars.value, __env_vars.set, None, None)
 
     
     # Element {http://www.phylog.org/submit/resource}node-properties uses Python identifier node_properties
-    __node_properties = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, u'node-properties'), 'node_properties', '__httpwww_phylog_orgsubmitresource_queueType_httpwww_phylog_orgsubmitresourcenode_properties', False, pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 103, 6), )
+    __node_properties = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, u'node-properties'), 'node_properties', '__httpwww_phylog_orgsubmitresource_queueType_httpwww_phylog_orgsubmitresourcenode_properties', False, pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 110, 6), )
 
     
     node_properties = property(__node_properties.value, __node_properties.set, None, None)
@@ -429,22 +447,23 @@ class queueType (pyxb.binding.basis.complexTypeDefinition):
     
     # Attribute id uses Python identifier id
     __id = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'id'), 'id', '__httpwww_phylog_orgsubmitresource_queueType_id', pyxb.binding.datatypes.string)
-    __id._DeclarationLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 110, 5)
-    __id._UseLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 110, 5)
+    __id._DeclarationLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 117, 5)
+    __id._UseLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 117, 5)
     
     id = property(__id.value, __id.set, None, None)
 
     
     # Attribute name uses Python identifier name
     __name = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'name'), 'name', '__httpwww_phylog_orgsubmitresource_queueType_name', pyxb.binding.datatypes.string)
-    __name._DeclarationLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 111, 5)
-    __name._UseLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 111, 5)
+    __name._DeclarationLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 118, 5)
+    __name._UseLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 118, 5)
     
     name = property(__name.value, __name.set, None, None)
 
     _ElementMap.update({
         __cores_per_node.name() : __cores_per_node,
         __cores_increment.name() : __cores_increment,
+        __max_nodes.name() : __max_nodes,
         __max_run_hours.name() : __max_run_hours,
         __env_vars.name() : __env_vars,
         __node_properties.name() : __node_properties
@@ -463,13 +482,13 @@ class CTD_ANON_4 (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = None
-    _XSDLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 95, 7)
+    _XSDLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 102, 7)
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.phylog.org/submit/resource}env uses Python identifier env
-    __env = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, u'env'), 'env', '__httpwww_phylog_orgsubmitresource_CTD_ANON_4_httpwww_phylog_orgsubmitresourceenv', True, pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 97, 9), )
+    __env = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, u'env'), 'env', '__httpwww_phylog_orgsubmitresource_CTD_ANON_4_httpwww_phylog_orgsubmitresourceenv', True, pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 104, 9), )
 
     
     env = property(__env.value, __env.set, None, None)
@@ -490,13 +509,13 @@ class CTD_ANON_5 (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = None
-    _XSDLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 104, 7)
+    _XSDLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 111, 7)
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.phylog.org/submit/resource}property uses Python identifier property_
-    __property = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, u'property'), 'property_', '__httpwww_phylog_orgsubmitresource_CTD_ANON_5_httpwww_phylog_orgsubmitresourceproperty', True, pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 106, 9), )
+    __property = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, u'property'), 'property_', '__httpwww_phylog_orgsubmitresource_CTD_ANON_5_httpwww_phylog_orgsubmitresourceproperty', True, pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 113, 9), )
 
     
     property_ = property(__property.value, __property.set, None, None)
@@ -517,15 +536,15 @@ class envType (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'envType')
-    _XSDLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 116, 4)
+    _XSDLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 123, 4)
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.string
     
     # Attribute name uses Python identifier name
     __name = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'name'), 'name', '__httpwww_phylog_orgsubmitresource_envType_name', pyxb.binding.datatypes.string)
-    __name._DeclarationLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 119, 7)
-    __name._UseLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 119, 7)
+    __name._DeclarationLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 126, 7)
+    __name._UseLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 126, 7)
     
     name = property(__name.value, __name.set, None, None)
 
@@ -545,15 +564,15 @@ class TemplateParamType (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'TemplateParamType')
-    _XSDLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 124, 4)
+    _XSDLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 131, 4)
     _ElementMap = {}
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.string
     
     # Attribute name uses Python identifier name
     __name = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, u'name'), 'name', '__httpwww_phylog_orgsubmitresource_TemplateParamType_name', pyxb.binding.datatypes.string)
-    __name._DeclarationLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 127, 7)
-    __name._UseLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 127, 7)
+    __name._DeclarationLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 134, 7)
+    __name._UseLocation = pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 134, 7)
     
     name = property(__name.value, __name.set, None, None)
 
@@ -566,7 +585,7 @@ class TemplateParamType (pyxb.binding.basis.complexTypeDefinition):
 Namespace.addCategoryObject('typeBinding', u'TemplateParamType', TemplateParamType)
 
 
-resource = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'resource'), ResourceType, location=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 132, 4))
+resource = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'resource'), ResourceType, location=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 139, 4))
 Namespace.addCategoryObject('elementBinding', resource.name().localName(), resource)
 
 
@@ -787,11 +806,13 @@ queueType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Nam
 
 queueType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'cores-increment'), STD_ANON_, scope=queueType, location=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 79, 6)))
 
-queueType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'max-run-hours'), STD_ANON_2, scope=queueType, location=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 87, 6)))
+queueType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'max-nodes'), STD_ANON_2, scope=queueType, location=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 87, 6)))
 
-queueType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'env-vars'), CTD_ANON_4, scope=queueType, location=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 94, 6)))
+queueType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'max-run-hours'), STD_ANON_3, scope=queueType, location=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 94, 6)))
 
-queueType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'node-properties'), CTD_ANON_5, scope=queueType, location=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 103, 6)))
+queueType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'env-vars'), CTD_ANON_4, scope=queueType, location=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 101, 6)))
+
+queueType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'node-properties'), CTD_ANON_5, scope=queueType, location=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 110, 6)))
 
 def _BuildAutomaton_7 ():
     # Remove this helper function from the namespace after it is invoked
@@ -804,6 +825,8 @@ def _BuildAutomaton_7 ():
     counters.add(cc_0)
     cc_1 = fac.CounterCondition(min=0L, max=1L, metadata=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 87, 6))
     counters.add(cc_1)
+    cc_2 = fac.CounterCondition(min=0L, max=1L, metadata=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 94, 6))
+    counters.add(cc_2)
     states = []
     final_update = None
     symbol = pyxb.binding.content.ElementUse(queueType._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'cores-per-node')), pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 71, 6))
@@ -814,23 +837,29 @@ def _BuildAutomaton_7 ():
     st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(queueType._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'max-run-hours')), pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 87, 6))
+    symbol = pyxb.binding.content.ElementUse(queueType._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'max-nodes')), pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 87, 6))
     st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(queueType._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'env-vars')), pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 94, 6))
+    symbol = pyxb.binding.content.ElementUse(queueType._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'max-run-hours')), pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 94, 6))
     st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
-    final_update = set()
-    symbol = pyxb.binding.content.ElementUse(queueType._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'node-properties')), pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 103, 6))
+    final_update = None
+    symbol = pyxb.binding.content.ElementUse(queueType._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'env-vars')), pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 101, 6))
     st_4 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
+    final_update = set()
+    symbol = pyxb.binding.content.ElementUse(queueType._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'node-properties')), pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 110, 6))
+    st_5 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    states.append(st_5)
     transitions = []
     transitions.append(fac.Transition(st_1, [
          ]))
     transitions.append(fac.Transition(st_2, [
          ]))
     transitions.append(fac.Transition(st_3, [
+         ]))
+    transitions.append(fac.Transition(st_4, [
          ]))
     st_0._set_transitionSet(transitions)
     transitions = []
@@ -840,26 +869,36 @@ def _BuildAutomaton_7 ():
         fac.UpdateInstruction(cc_0, False) ]))
     transitions.append(fac.Transition(st_3, [
         fac.UpdateInstruction(cc_0, False) ]))
+    transitions.append(fac.Transition(st_4, [
+        fac.UpdateInstruction(cc_0, False) ]))
     st_1._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_2, [
         fac.UpdateInstruction(cc_1, True) ]))
     transitions.append(fac.Transition(st_3, [
         fac.UpdateInstruction(cc_1, False) ]))
+    transitions.append(fac.Transition(st_4, [
+        fac.UpdateInstruction(cc_1, False) ]))
     st_2._set_transitionSet(transitions)
     transitions = []
+    transitions.append(fac.Transition(st_3, [
+        fac.UpdateInstruction(cc_2, True) ]))
     transitions.append(fac.Transition(st_4, [
-         ]))
+        fac.UpdateInstruction(cc_2, False) ]))
     st_3._set_transitionSet(transitions)
     transitions = []
+    transitions.append(fac.Transition(st_5, [
+         ]))
     st_4._set_transitionSet(transitions)
+    transitions = []
+    st_5._set_transitionSet(transitions)
     return fac.Automaton(states, counters, False, containing_state=None)
 queueType._Automaton = _BuildAutomaton_7()
 
 
 
 
-CTD_ANON_4._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'env'), envType, scope=CTD_ANON_4, location=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 97, 9)))
+CTD_ANON_4._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'env'), envType, scope=CTD_ANON_4, location=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 104, 9)))
 
 def _BuildAutomaton_8 ():
     # Remove this helper function from the namespace after it is invoked
@@ -868,12 +907,12 @@ def _BuildAutomaton_8 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=None, metadata=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 97, 9))
+    cc_0 = fac.CounterCondition(min=0L, max=None, metadata=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 104, 9))
     counters.add(cc_0)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(CTD_ANON_4._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'env')), pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 97, 9))
+    symbol = pyxb.binding.content.ElementUse(CTD_ANON_4._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'env')), pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 104, 9))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     transitions = []
@@ -886,7 +925,7 @@ CTD_ANON_4._Automaton = _BuildAutomaton_8()
 
 
 
-CTD_ANON_5._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'property'), pyxb.binding.datatypes.string, scope=CTD_ANON_5, location=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 106, 9)))
+CTD_ANON_5._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'property'), pyxb.binding.datatypes.string, scope=CTD_ANON_5, location=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 113, 9)))
 
 def _BuildAutomaton_9 ():
     # Remove this helper function from the namespace after it is invoked
@@ -895,12 +934,12 @@ def _BuildAutomaton_9 ():
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0L, max=None, metadata=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 106, 9))
+    cc_0 = fac.CounterCondition(min=0L, max=None, metadata=pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 113, 9))
     counters.add(cc_0)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(CTD_ANON_5._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'property')), pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 106, 9))
+    symbol = pyxb.binding.content.ElementUse(CTD_ANON_5._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'property')), pyxb.utils.utility.Location('/Users/lunt/Documents/SDSClocal/EclipseWorkspaces/parallelWS/CipresSubmit/src/CipresSubmit/schema/resource.xsd', 113, 9))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     transitions = []

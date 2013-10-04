@@ -84,6 +84,13 @@
     				</restriction>
     			</simpleType>
     		</element>
+    		<element name="max-nodes" maxOccurs="1" minOccurs="0">
+    			<simpleType>
+    				<restriction base="int">
+    					<minInclusive value="1"></minInclusive>
+    				</restriction>
+    			</simpleType>
+    		</element>
     		<element name="max-run-hours" maxOccurs="1" minOccurs="0">
     			<simpleType>
     				<restriction base="float">

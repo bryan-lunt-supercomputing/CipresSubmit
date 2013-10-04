@@ -21,7 +21,8 @@ class Queue(object):
 		self.name = queue_object.name
 		self.cores_per_node = queue_object.cores_per_node
 		self.cores_increment = self.cores_per_node if (queue_object.cores_increment == None) else queue_object.cores_increment
-		self.max_run_horus = queue_object.max_run_hours
+		self.max_nodes = queue_object.max_nodes
+		self.max_run_hours = queue_object.max_run_hours
 		self.env_vars = [SimpleTuple(i.name,i.value()) for i in queue_object.env_vars.env]
 		self.env_vars_dict = dict([(i.name,i.value) for i in self.env_vars])
 		self.node_properties = [i for i in queue_object.node_properties.content()]

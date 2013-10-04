@@ -13,7 +13,8 @@ import CipresSubmit.pyjavaproperties as Props
 from CipresSubmit.SubmitLogger import SubmitLogger
 import CipresSubmit.SubmitConfig as SConfig
 import CipresSubmit.schema as SSchema
-import pystache
+import CipresSubmit.templates as STemp
+import CipresSubmit.SubmitEnv as SEnv
 
 def main(argv=sys.argv):
 	"""
@@ -85,62 +86,51 @@ def main(argv=sys.argv):
 	
 	
 	
-	
-	#TODO: This is where the submit system will choose a queue for the submitter, set nodes, set ppn, etc, etc
-	the_queue, nodes, ppn = (resource_configuration.queues_dict['shared'], 1, 16) #Dummy values for testing.
+	#
+	#CHOOSE THE QUEUE
+	#
+	myBatchSystem = SEnv.get_batch_instance(resource=resource_configuration)
+	the_queue, nodes, ppn = myBatchSystem.choose_queue(job_properties)
+	scheduler_properties['queue'] = the_queue #Gets queuename and node_properties, though we might want to edit node_properties? (For example, some jobs might not need local storage, so asking for flash..
+	scheduler_properties['nodes'] = nodes
+	scheduler_properties['ppn'] = ppn
 	
 	#TODO: With the queue chosen, we need to enforce maximum walltime
 	#TOOD: With the number of cores chosen, we need to enforce maximum SU usage by altering the walltime.
+	#
 	
-	job_properties['queue'] = the_queue #Gets queuename and node_properties, though we might want to edit node_properties? (For example, some jobs might not need local storage, so asking for flash..
-	job_properties['nodes'] = nodes
-	job_properties['ppn'] = ppn
-	
-	job_properties['env_vars_string'] = ','.join(['%s=%s' % (i,j) for i,j in  job_properties['queue'].env_vars_dict.iteritems()])
+	#Setup the environment variables to be passed with the "#PBS -v" option.
+	#The template engine won't set this up easily/nicely.
+	job_properties['env_vars_string'] = ','.join(['%s=%s' % (i,j) for i,j in  scheduler_properties['queue'].env_vars_dict.iteritems()])
 	
 	scheduler_properties['runminutes'] = int(ceil(float(scheduler_properties['runhours'])*60))
 	
 	
-	#TODO: Execute the template.
-	print "commandline_options", cmdline_options
-	print "global_settings", global_settings
-	print "all_resources", all_resources
-	print "job_properties", job_properties
-	print "scheduler_properties", scheduler_properties
-	print "resource_configuration", resource_configuration
-
-	the_renderer = pystache.Renderer()#missing_tags='strict')
-	
+	#Execute all templates
+	created_files = list()
 	for template_entry in resource_configuration.templates:
-		print """
-###
-%s
-###""" % template_entry.name
-		print the_renderer.render(template_entry.template,template_entry.parameters,global_settings,job_properties,scheduler_properties, cmdline_options, {'cmdline':' '.join(cmdline)})
-	
-
-	import pdb
-	pdb.set_trace()
-	exit(1)
-	
+		created_files.append(template_entry.name)
+		with open(template_entry.name,"w") as outfile:
+			outfile.write( STemp.execute_template(template_entry.template,
+											template_entry.parameters,
+											global_settings,
+											job_properties,
+											scheduler_properties,
+											cmdline_options,
+											{'cmdline':' '.join(cmdline)}) )
 	
 	
 	
-	#TODO: Actually submit the job.
+	
+	#Actually submit the job, which should be the first template.
+	myBatchSystem.submit(created_files[0], scheduler_properties)
 	
 	
 	
 	
 	#TODO: How do we get back the qsub status? as an Exception, or a return type?
 	#TODO: How do we get back the jobid? As another return value or, with another method call to the submitter?
-	
-	print "DEBUG INFO:"
-	print "NUM CPUS : %i \n" % num_cpus
-	
-	print "Submitter : ", submitter
 
-	print "CLUSTER INFO: ", cluster_info
-	print "SCHEULER INFO: ", scheduler_properties
 
 
 if __name__ == "__main__":
