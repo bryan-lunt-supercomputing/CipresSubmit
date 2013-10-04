@@ -23,7 +23,6 @@ export MODULEPATH=/home/diag/jpg/modulefiles/gordon/applications:$MODULEPATH
 			<queue id="shared" name="shared">
 				<cores-per-node>16</cores-per-node>
 				<cores-increment>8</cores-increment>
-				<max-nodes>1</max-nodes>
 				<max-run-hours>336.0</max-run-hours>
 				<env-vars>
 					<env name="QOS">2</env>

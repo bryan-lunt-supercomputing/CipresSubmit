@@ -16,6 +16,8 @@ import CipresSubmit.schema as SSchema
 import CipresSubmit.templates as STemp
 import CipresSubmit.SubmitEnv as SEnv
 
+import stat
+
 def main(argv=sys.argv):
 	"""
     Usage is:
@@ -44,7 +46,7 @@ def main(argv=sys.argv):
 					help="Notification URL")
 	
 	try:
-		options, cmdline = parser.parse_known_args(argv)
+		cmdline_options, cmdline = parser.parse_known_args(argv)
 		cmdline = cmdline if not ('--' in cmdline) else cmdline[cmdline.index('--')+1:]
 	except Exception as e:
 		sub_log.log(e.message, "ERROR")
@@ -53,7 +55,7 @@ def main(argv=sys.argv):
 	
 	#READ BASIC CONFIGURATIONS
 	
-	cmdline_options        = options
+	cmdline_options        = cmdline_options
 	global_settings        = SConfig.load_configs();
 	all_resources          = SConfig.load_all_resource_XMLs(global_settings['hosts']['resourcexmldir'])
 	job_properties         = None
@@ -68,6 +70,8 @@ def main(argv=sys.argv):
 		sub_log.log(e.message, "ERROR")
 		sub_log.submit_fail("No '_JOBINFO.TXT' or it could not be parsed.")
 	
+	if cmdline_options.account is not None:
+		job_properties['account'] = cmdline_options.account
 	
 	#Read the scheduler.conf file
 	try:
@@ -76,10 +80,13 @@ def main(argv=sys.argv):
 		sub_log.log(e.message, "ERROR")
 		sub_log.submit_fail("No 'scheduler.conf' or it could not be parsed.")
 	
+	
 	#_JOBINFO.TXT has told us what resource we are running on, so open that resource
 	resource_configuration = SSchema.Resource(all_resources[job_properties['resource']])
 	
 	#ENVIRONMENT IS PREPARED
+	
+	
 	
 	
 	#TODO: This is where we should execute the pre-run script. I guess.
@@ -114,10 +121,13 @@ def main(argv=sys.argv):
 			outfile.write( STemp.execute_template(template_entry.template,
 											template_entry.parameters,
 											global_settings,
+											resource_configuration,
+											{'CIPRESNOTIFYURL':cmdline_options.CIPRESNOTIFYURL},
 											job_properties,
 											scheduler_properties,
-											cmdline_options,
-											{'cmdline':' '.join(cmdline)}) )
+											{'cmdline':' '.join(cmdline)})
+						)
+		os.chmod(template_entry.name,stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH )
 	
 	
 	

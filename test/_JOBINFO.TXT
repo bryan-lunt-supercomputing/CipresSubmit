@@ -1,0 +1,12 @@
+Task label=Mb3 LG final
+Task ID=555555
+Tool=MRBAYES_XSEDE
+created on=2013-10-03 14:37:34.0
+JobHandle=NGBW-JOB-MRBAYES_XSEDE-11111111111111111111111111111111
+resource=gordon
+User ID=123456
+User Name=blunt
+email=blunt@sdsc.edu
+
+Output = (ALL_FILES,*,UNKNOWN,UNKNOWN,UNKNOWN)
+JOBID=123456.gordon-fe2.local
