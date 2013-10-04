@@ -7,12 +7,12 @@
 	</account>
 	<batch-system type="PBS"> <!-- Setup an XML namespace for that? -->
 		<templates>
-			<template name="runfile" filename="/Where/That/template/file/is/localted">
+			<template name="runfile" filename="../src/CipresSubmit/templates/runfile.template">
 				<param name="cluster_header">
 					source /etc/profile.d/modules.sh
 				</param>
 			</template>
-			<template name="cmdfile" filename="/Where/That/template/file/is/localted">
+			<template name="cmdfile" filename="../src/CipresSubmit/templates/cmdfile.template">
 			</template>
 		</templates>
 		<queues>
