@@ -1,0 +1,31 @@
+\section{Basics}
+
+\subsection{Command line arguments} \hfill \\
+\theprog accepts the following command-line arguments:
+
+\begin{verbatim}
+submit.py [--account ACCOUNTSTR] --url NOTIFYURL -- command line to run
+\end{verbatim}
+
+\begin{longtable}{|r||p{ .8\textwidth} | }
+\caption{Command Line arguments}\\
+\hline
+{\bf Argument} & {\bf Notes}\\
+\hline
+--account & Defaults to the portal-wide account if not provided. \\
+--url & A notification URL to use when jobs start, end, fail, etc.\\
+-- & The double dash is required before the beginning of the command-line to submit.\\
+\hline 
+\end{longtable}
+
+\subsection{Output and Return Values} \hfill \\
+
+\subsubsection{Success} \hfill \\
+The first line printed by \theprog gives the full jobid of the newly submit job.
+Subsequent lines may give additional logging information, but are currently ignored by up-stream program.
+
+\subsubsection{Failure}
+\begin{description}
+	\item[Too Many Jobs Enqueued]\theprog returns 2 and may give some logging information. (Which is currently ignored.)
+	\item[Other Error] \theprog returns 1 and may give some logging information. (Which is currently ignored.)
+\end{description}

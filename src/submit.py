@@ -107,10 +107,6 @@ def main(argv=sys.argv):
 	#TOOD: With the number of cores chosen, we need to enforce maximum SU usage by altering the walltime.
 	#
 	
-	#Setup the environment variables to be passed with the "#PBS -v" option.
-	#The template engine won't set this up easily/nicely.
-	job_properties['env_vars_string'] = ','.join(['%s=%s' % (i,j) for i,j in  scheduler_properties['queue'].env_vars_dict.iteritems()])
-	
 	scheduler_properties['runminutes'] = int(ceil(float(scheduler_properties['runhours'])*60))
 	
 	
@@ -125,6 +121,7 @@ def main(argv=sys.argv):
 											resource_configuration,
 											{'CIPRESNOTIFYURL':cmdline_options.CIPRESNOTIFYURL},
 											job_properties,
+											{'env_var_string':','.join(['%s=%s' % (i,j) for i,j in  scheduler_properties['queue'].env_vars_dict.iteritems()])},
 											scheduler_properties,
 											{'cmdline':' '.join(cmdline)})
 						)

@@ -1,0 +1,54 @@
+\section{Per-Job environment files}
+\subsection{scheduler.conf} \hfill \\
+The file \filename{scheduler.conf} is a  \javaapi{java.util.Properties} file \footnote{See: \javaapi{java.util.Properties} and \wikipedia{.properties} } containing information from the front-end and middle-ware about how a job is to be scheduled. This is the natural home for future information about scheduling, for example if the queue is to be selected explicitly.
+This file stores (key, value) pairs of Strings. It is up to the creator and client to enforce any datatypes other than that.
+
+Currently, \filename{scheduler.conf} may contain any of the following entries:
+
+\begin{longtable}{|r||p{.2\textwidth}|p{.15\textwidth}|p{ .3\textwidth} | }
+\caption{Allowed values in \filename{scheduler.conf}}\\
+\hline
+{\bf Name} & {\bf Allowed Values} & {\bf Default if missing} &  {\bf Notes}\\
+\hline
+jobtype & NIL, ``direct" , ``mpi", ``serial'' & ``serial" & ``serial" is also used for shared-memory parallel jobs. \\
+mpi\_processes & NIL, 1, 2, 3, ...& 1 & Shared memory and serial jobs should be considered to have 1 mpi process. \\
+threads\_per\_process & NIL, 1, 2, 3, ...  & 1 & Used to control hybrid MPI tasks and shared-memory parallel tasks.\\
+runhours & $(0.0 , \inf)$ & No Default, required. & A float, giving the maximum wall-time in hours.\\
+node\_exclusive & NIL, 0, 1 & 0 & Binary encoded boolean value. Set to ``1" to force node-exclusive scheduling\\
+\hline
+\multicolumn{4}{||c||}{The following are reserved for \theprog to set, or future use.}\\
+\hline
+nodes & NIL, 1, 2, 3 & No default & This is generally calculated by \theprog, and is thus currently ignored from the front-end.\\
+ppn & 1, 2, 3, ... & 1 & \\
+queue & Any String & No default & It is a primary feature of \theprog to choose this. May be used in the future to force a certain queue.\\
+\hline 
+\end{longtable}
+
+
+\pagebreak
+\subsection{\_JOBINFO.TXT\label{jobinfo}} \hfill \\
+The file \filename{\_JOBINFO.TXT} is a  \javaapi{java.util.Properties} file \footnote{See: \javaapi{java.util.Properties} and \wikipedia{.properties} } containing information from the front-end and middle-ware about what job is to be run, on what resource, with what names, the {\em portal } jobID etc.
+This file stores (key, value) pairs of Strings. It is up to the creator and client to enforce any datatypes other than that.
+
+The file is created in {\bf org.ngbw.sdk.tool.BaseProcessWorker}.
+
+Currently, \filename{\_JOBINFO.TXT} may contain any of the following entries: \\
+({\bf Warning: } This list may be incomplete!)
+
+\begin{longtable}{|r||p{.2\textwidth}|p{.15\textwidth}|p{ .3\textwidth} | }
+\caption{Allowed values in \filename{\_JOBINFO.TXT}}\\
+\hline
+{\bf Name} & {\bf Datatype} & {\bf Default if missing} &  {\bf Notes}\\
+\hline
+Task label & String & Required & Note that names with spaces must have those spaces escaped with a ``\textbackslash" character, if a .properties file is written directly.\\
+Task ID & int & Required & See above.\\
+Tool & String & Required & \theprog reads this.\\
+created on & ``YYYY-MM-DD HH:MM:SS.s" & Required & Hours are 24 hour, ``s" denotes the tenth of a second.\\
+JobHandle & NGBW Job identifier (String) & Required & \\
+User ID & int & Required & NGBW or Portal userid?\\
+User Name & String & Required & NGBW or Portal username?\\
+email & E-Mail address & Required ? & NGBW or Portal user e-mail address, not used for job notification via ``qsub -M $<$ email $>$"\\
+Output & String & ? & Currently Ignored by \theprog\\
+JOBID & String & Starts Empty &Set by \theprog \\
+\hline 
+\end{longtable}

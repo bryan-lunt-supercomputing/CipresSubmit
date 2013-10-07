@@ -1,0 +1,50 @@
+
+\documentclass[12pt]{amsart}
+\usepackage{geometry} % see geometry.pdf on how to lay out the page. There's lots.
+\geometry{a4paper} % or letter or a5paper or ... etc
+% \geometry{landscape} % rotated page geometry
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage{xstring}
+
+\usepackage{conffiles}
+
+% See the ``Article customise'' template for come common customisations
+
+\newcommand{\filename}[1]{{\it #1 }}
+\newcommand{\javaapi}[1]{
+\StrSubstitute{#1}{.}{/}[\SubstitutedClassURL]
+\href{http://docs.oracle.com/javase/7/docs/api/\SubstitutedClassURL.html}{\bf #1}
+}
+\newcommand{\wikipedia}[1]{
+\href{http://en.wikipedia.org/wiki/#1}{\bf Wikipedia : #1}
+}
+
+\newcommand{\theprog}[0]{\filename{submit.py}}
+
+\title{Submit.py : User Documentation}
+\author{Bryan Lunt}
+\date{Oct 7, 2013} % delete this line to display the current date
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Purpose}
+\theprog is used to create an additional layer of abstraction between the NGBW front-end systems, and back end-systems that run jobs. Pass \theprog the command-line to be run (after setting up some other files describing scheduling information) and it selects the appropriate queue and other settings for a job, and submits that job.
+
+\pagebreak
+\include{basic}
+
+\pagebreak
+\include{conffiles}
+
+\pagebreak
+\include{templatefiles}
+
+\pagebreak
+\include{envfiles}
+
+\end{document}

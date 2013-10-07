@@ -1,0 +1,47 @@
+\section{Template Files\label{templatefile}}
+
+The current version of \theprog uses the Python implementation of the \href{http://mustache.github.io/}{{\bf Moustache}} template engine. (Jinja2 , which allows more programming logic in templates, is considered for a future version.)\\
+Before actually submitting a job, one of the main responsibilities of \theprog is to evaluate these templates and produce the actual run scripts.
+
+\subsection{Cascading Preferences : Order of Priority} \hfill \\
+\theprog sets up parameters for the templates by cascading preferences from the various input files, command-line, and config files, in the following order. (Later entries have stronger precedence)
+
+\begin{itemize}
+	\item Template $<$param ... /$>$ entries given in the resource XML file.
+	\item Global settings from the .conf files (themselves already cascaded.)
+	\item The accountstr entry from the resource XML file. (As 'account')
+	\item The URL given at the command-line
+	\item All entries from the \filename{\_JOBINFO.TXT} file.
+	\item Template $<$env ... /$>$ entries. (Including an additional entry `env\_vars\_string' which joins all variables like: `QOS=2,FOOBAR=test,BAZ=another' )
+	\item The Account string from the commandline, if any. (In the future, preferably replaced by putting in \filename{\_JOBINFO.TXT})
+	\item The scheduler properties, both read from \filename{scheduler.conf} and those computed in the queue selection step. (`queue', `nodes', `ppn', `runminutes')
+	\item The command line to run, as `cmdline'.
+\end{itemize}
+
+\subsection{Template Evaluation Environment}
+Templates are evaluated by passing them a dictionary or namespace-like object. Fields / keys in this object can be used in the template for substitution and limited looping.
+If top-level object A has member B which has member C, then ``B.C" selects A.B.C if A is passed as the parameter to the template.
+For example, the name of the selected queue is accessed as ``queue.name".
+
+
+In addition to all entries documented in \filename{scheduler.conf} and in \filename{\_JOBINFO.TXT}, templates may expect the following:
+\begin{description}
+	\item[cmdline] The command line to execute.
+	\item[account] The account string to bill computation time to.
+	\item[queue] An queue object, from the descriptor XML files.
+		\begin{description}
+			\item[name] The name on the submit-host of the queue to which this job should be submit. (IE \begin{verbatim}#PBS -q <% queue.name %>\end{verbatim} )
+			\item[node\_properties] Properties to be used when submitting to this queue.
+		\end{description}
+	\item[JobHandle] The name of the job according to the portal. Useful as the scheduler job-name
+	\item[runminutes] The number of minutes the job should be allowed to run
+	\item[nodes] The number of nodes to use.
+	\item[ppn] The number of CPUs per node to request.
+	\item[env\_vars\_string] String joining all of the template $<$env ... /$>$ entries like: `QOS=2,FOOBAR=test,BAZ=another' (Because Moustache doesn't support much logic.)
+	\item[cluster\_header] Could be null, from the resource XML
+	\item[jobdir] The current working directory from \theprog, the directory in which the job should be executed.
+	\item[job\_status\_email] Where to send e-mail when a job finishes.
+	\item[CIPRESNOTIFYURL] URL to connect to to notify the front-end of changes in job status.
+\end{description}
+
+Templates need not use all of these. For examples please see \filename{src/CipresSubmit/templates/runfile.template} and \filename{src/CipresSubmit/templates/cmdfile.template}.

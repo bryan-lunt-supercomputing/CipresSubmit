@@ -1,0 +1,87 @@
+\section{Configuration files}
+Various configuration files control the global behaviour and default values of \theprog .
+
+\subsection{.conf files}
+Chief among the global configuration files are the python config files ``~/.cipressubmit.conf" and the current directory file ``submit.cfg" . (The current directory file may be removed for security reasons.)
+
+\theprog cascades these file, with ``submit.cfg" overriding values from ``~/.cipressubmit.conf''. An example configuration file is thus:
+~\\
+\begin{verbatim}
+[hosts]
+resourcexmldir=/projects/ps-ngbt/submit/descriptors
+\end{verbatim}
+~\\
+The ``resourcexmldir" parameter should point to a directory that contains Submit Resource Descriptor XML files (\ref{resourcexml}). It should give an absolute path requiring no expansion.
+
+\subsection{Resource XML Descriptors\label{resourcexml}}
+These files each describe a single resource that \theprog may submit a job to.
+The `name' attribute of a resource element should match the `resource' property described in  \ref{jobinfo}
+
+The XML Schema for these files is available in the project under\\ \filename{src/CipresSubmit/schema/resource.xsd}.
+
+\lstset{language=XML}
+\begin{lstlisting}[caption={General layout of a resource descriptor}]
+<?xml version="1.0" encoding="UTF-8"?>
+<resource name="gordon" xmlns="http://www.phylog.org/submit/resource">
+	<hosts>
+	   It is unnecessary to use this option in the current formulation.
+	</hosts>
+	<account>
+		<accountstr>TG-DEB090011</accountstr>
+	</account>
+	<batch-system type="PBS">
+		<templates>
+	Templates go here, the first template is the one that gets qsubbed.
+		</templates>
+		<queues>
+			Queues go here, there should at least be
+a queue with the id "normal".  It is suggested that there be a queue with the
+id "shared" for jobs that use less than a whole node.
+		</queues>
+	</batch-system>
+</resource>
+\end{lstlisting}
+
+\subsubsection{Template Entries}
+A template element has a `name' giving the name of the file to be created when this template is executed.
+The attribute `filename' gives the (preferably absolute) path to the template file (Sec.~\ref{templatefile}) to be loaded.\\
+Each PARAM entry has a `name' giving the name of the parameter as it will appear to the template when that template is evaluated. The internal text is used as a literal string, no substitution is possible.
+
+{\bf Important :} The first template entry is for the script file that will actually be {\it qsubbed}.
+
+\begin{lstlisting}[caption={An example template element}]
+<template name="batch_command.run" filename="/Path/To/Templates/runfile.template">
+	<param name="cluster_header">
+source /etc/profile.d/modules.sh
+export MODULEPATH=/home/diag/jpg/modulefiles/gordon/applications:$MODULEPATH
+	</param>
+</template>
+\end{lstlisting}
+
+\subsubsection{Queue Entries}
+A queue's ``id" will be the id that the front-end asks for if it specifies a queue. `name' is the queue name on the submission host itself.
+In general, it may be best to use ids and names that are identical, with the following exceptions:
+
+\begin{itemize}
+	\item It is required to have a queue with id `normal' ; this will run jobs that are node-exclusive or multi-node jobs.
+	\item It is best to also have a queue with id `shared' ; this will run jobs that use fewer than one node, IE, if your installation allows running on 2 cpus out of 16. (In some cases, this may point to the same queue as 'normal'.) \\ If missing, all jobs will get run on the `normal' queue, and each job will use at least 1 node.
+\end{itemize}
+
+Each {\it env } entry gives the name and value of an environment variable that should be set while submitting the job.
+Each {\it property } entry gives a property that should be added to the node-selector at submit time.
+
+\begin{lstlisting}[caption={Example Queue entry}]
+<queue id="shared" name="host_name_for_shared_queue">
+	<cores-per-node>16</cores-per-node>
+	<cores-increment>8</cores-increment>
+		<!-- cores-increment defaults to cores-per-node if missing -->
+	<max-run-hours>336.0</max-run-hours>
+	<env-vars>
+		<env name="QOS">2</env>
+	</env-vars>
+	<node-properties>
+		<property>native</property>
+		<property>flash</property>
+	</node-properties>
+</queue>
+\end{lstlisting}
