@@ -11,6 +11,9 @@ logger = logging.getLogger("pyxb.binding.basis")
 logger.addHandler(logging.NullHandler())
 
 
+def read_resource_string(xmlstring):
+	return R.CreateFromDocument(xmlstring)
+
 def read_resource_file(filename):
 	with open(filename) as infile:
 		return R.CreateFromDocument(infile.read())
@@ -42,8 +45,7 @@ class Template(object):
 		@param: template_object A pyxb template object.
 		"""
 		self.name = template_object.name
-		with open(template_object.filename) as infile:
-			self.template = infile.read()
+		self.filename = template_object.filename
 		self.parameters = dict()
 		for one_param in template_object.param:
 			self.parameters[str(one_param.name)] = one_param.value()

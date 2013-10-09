@@ -6,11 +6,14 @@ Created on Oct 3, 2013
 
 import pyjavaproperties as Props
 
+import pkg_resources
 
 import ConfigParser as CFGP
 import os
+import os.path
 
 import CipresSubmit.schema as SubmitXML
+import CipresSubmit.hosts as DefaultSubmitHosts
 
 def __config_to_str_dict(config):
 	retdict = dict([
@@ -23,7 +26,8 @@ def __config_to_str_dict(config):
 def load_configs():
 	baseconfig = CFGP.ConfigParser()
 	#Load a global submit configuration but allow it to be overridden by a local configuration
-	readfiles      = baseconfig.read([os.path.expanduser('~/.cipressubmit.cfg'), 'submit.cfg' ])
+	default_config = pkg_resources.resource_filename(__name__,"cipressubmit.cfg")
+	readfiles      = baseconfig.read([default_config,os.path.expanduser('~/.cipressubmit.cfg'), 'cipressubmit.cfg' ])
 	return __config_to_str_dict(baseconfig)
 
 def load_jobinfo(filename="_JOBINFO.TXT"):
@@ -54,14 +58,24 @@ def load_scheduler_conf(filename="scheduler.conf"):
 
 
 def load_all_resource_XMLs(search_dir):
-	xmlFileList    = []
-	for root, dirs, filenames in os.walk(search_dir):
-		for one_filename in filenames:
-			if one_filename.endswith('.xml'):
-				xmlFileList.append(os.path.join(root,one_filename))	
+	resource_xmls = dict()
 	
-	resource_xmls = dict([load_resource_xml(one_filename) for one_filename in xmlFileList])
+	if search_dir is not None:
+		for root, dirs, filenames in os.walk(search_dir):
+			for one_filename in filenames:
+				if (not one_filename.endswith('.xml')):
+					continue
+				resource_object = SubmitXML.read_resource_file(os.path.join(root,one_filename))
+				resource_xmls[str(resource_object.name)] = resource_object								
+	else: #Search dir none, default to resources packaged with the program.
+		python_resource_names = [i for i in pkg_resources.resource_listdir(DefaultSubmitHosts.__name__,'') if i.endswith('xml')]
+		for one_name in python_resource_names:
+			python_resource_string = pkg_resources.resource_string(DefaultSubmitHosts.__name__,one_name)
+			resource_object = SubmitXML.read_resource_string(python_resource_string)
+			resource_xmls[str(resource_object.name)] = resource_object
+	
 	return resource_xmls
+			
 
 def load_resource_xml(filepath):
 	"""

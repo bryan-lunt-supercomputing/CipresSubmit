@@ -9,13 +9,13 @@
 	</account>
 	<batch-system type="PBS"> <!-- Setup an XML namespace for that? -->
 		<templates>
-			<template name="batch_command.run" filename="../src/CipresSubmit/templates/runfile.template">
+			<template name="batch_command.run" filename="runfile.template">
 				<param name="cluster_header">
 source /etc/profile.d/modules.sh
 export MODULEPATH=/home/diag/jpg/modulefiles/gordon/applications:$MODULEPATH
 				</param>
 			</template>
-			<template name="batch_command.cmdline" filename="../src/CipresSubmit/templates/cmdfile.template">
+			<template name="batch_command.cmdline" filename="cmdfile.template">
 			<!-- Who knows what other templates we'd want in the future. Actually, we will execute all templates given, but qsub the first one. -->
 			</template>
 		</templates>

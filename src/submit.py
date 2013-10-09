@@ -58,7 +58,7 @@ def main(argv=sys.argv):
 	
 	cmdline_options        = cmdline_options
 	global_settings        = SConfig.load_configs();
-	all_resources          = SConfig.load_all_resource_XMLs(global_settings['hosts']['resourcexmldir'])
+	all_resources          = SConfig.load_all_resource_XMLs(global_settings.get('hosts',{'resourcexmldir':None}).get('resourcexmldir',None))
 	job_properties         = None
 	scheduler_properties   = None
 	resource_configuration = None
@@ -115,7 +115,8 @@ def main(argv=sys.argv):
 	for template_entry in resource_configuration.templates:
 		created_files.append(template_entry.name)
 		with open(template_entry.name,"w") as outfile:
-			outfile.write( STemp.execute_template(template_entry.template,
+			template_string = STemp.load_template(template_entry.filename,global_settings.get('templates',{'templatedir':None}).get('templatedir',None))
+			outfile.write( STemp.execute_template(template_string,
 											template_entry.parameters,
 											global_settings,
 											resource_configuration,
@@ -139,7 +140,7 @@ def main(argv=sys.argv):
 		sub_log.submit_fail("There were too many jobs enqueued.",status=2,terminate=True)
 	except Exception as e:
 		sub_log.log(e.message,"ERROR")
-		sub_log.submit_fail("There was some error submitting the job",terminate=True)
+		sub_log.submit_fail("There was some error submitting the job to the cluster system",terminate=True)
 		
 	
 	sub_log.jobid = jobid.strip().split('.')[0]
