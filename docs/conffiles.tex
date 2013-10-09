@@ -1,17 +1,28 @@
 \section{Configuration files}
 Various configuration files control the global behaviour and default values of \theprog .
 
-\subsection{.conf files}
-Chief among the global configuration files are the python config files ``~/.cipressubmit.conf" and the current directory file ``submit.cfg" . (The current directory file may be removed for security reasons.)
+\subsection{.cfg files}
+Chief among the global configuration files are the python config files
+``cipressubmit.cfg'' stored in the `CipresSubmit' package directory (or
+egg), ``~/.cipressubmit.cfg" and the working directory file
+``./cipressubmit.cfg" .
 
-\theprog cascades these file, with ``submit.cfg" overriding values from ``~/.cipressubmit.conf''. An example configuration file is thus:
+\theprog cascades these file, with ``cipressubmit.cfg" overriding values
+from``~/.cipressubmit.conf'' which overrides the in-built defaults. An example
+configuration file is thus:
 ~\\
 \begin{verbatim}
+[templates]
+templatedir=/projects/ps-ngbt/submit/templates
 [hosts]
-resourcexmldir=/projects/ps-ngbt/submit/descriptors
+resourcexmldir=/projects/ps-ngbt/submit/resources
 \end{verbatim}
 ~\\
 The ``resourcexmldir" parameter should point to a directory that contains Submit Resource Descriptor XML files (\ref{resourcexml}). It should give an absolute path requiring no expansion.
+If ``resourcexmldir'' is omitted, the default is to load resource config files from the `CipresSubimt.hosts' package, wherever that is.
+
+The ``templatedir'' parameter should point to a directory that contains templates, templates given without absolute paths in the resource descriptor XML files will be resolved from here.
+If ``templatedir'' is omitted, the default is to load resource config files from the `CipresSubmit.templates' package, wherever that is.
 
 \subsection{Resource XML Descriptors\label{resourcexml}}
 These files each describe a single resource that \theprog may submit a job to.

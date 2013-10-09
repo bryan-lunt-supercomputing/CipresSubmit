@@ -25,9 +25,16 @@ def __config_to_str_dict(config):
 
 def load_configs():
 	baseconfig = CFGP.ConfigParser()
+	#setup defaults.
+	baseconfig.add_section('templates')
+	baseconfig.set('templates','templatedir',None)
+	baseconfig.add_section('hosts')
+	baseconfig.set('hosts','resourcexmldir',None)
 	#Load a global submit configuration but allow it to be overridden by a local configuration
-	default_config = pkg_resources.resource_filename(__name__,"cipressubmit.cfg")
-	readfiles      = baseconfig.read([default_config,os.path.expanduser('~/.cipressubmit.cfg'), 'cipressubmit.cfg' ])
+	
+	baseconfig.readfp(pkg_resources.resource_stream(__name__,"cipressubmit.cfg"),"default_config")
+	readfiles      = baseconfig.read([os.path.expanduser('~/.cipressubmit.cfg'), 'cipressubmit.cfg' ])
+	
 	return __config_to_str_dict(baseconfig)
 
 def load_jobinfo(filename="_JOBINFO.TXT"):

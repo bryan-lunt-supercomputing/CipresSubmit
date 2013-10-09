@@ -58,7 +58,7 @@ def main(argv=sys.argv):
 	
 	cmdline_options        = cmdline_options
 	global_settings        = SConfig.load_configs();
-	all_resources          = SConfig.load_all_resource_XMLs(global_settings.get('hosts',{'resourcexmldir':None}).get('resourcexmldir',None))
+	all_resources          = SConfig.load_all_resource_XMLs(global_settings['hosts']['resourcexmldir'])
 	job_properties         = None
 	scheduler_properties   = None
 	resource_configuration = None
@@ -115,7 +115,7 @@ def main(argv=sys.argv):
 	for template_entry in resource_configuration.templates:
 		created_files.append(template_entry.name)
 		with open(template_entry.name,"w") as outfile:
-			template_string = STemp.load_template(template_entry.filename,global_settings.get('templates',{'templatedir':None}).get('templatedir',None))
+			template_string = STemp.load_template(template_entry.filename,global_settings['templates']['templatedir'])
 			outfile.write( STemp.execute_template(template_string,
 											template_entry.parameters,
 											global_settings,
