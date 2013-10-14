@@ -48,7 +48,7 @@ def main(argv=sys.argv):
 	
 	try:
 		cmdline_options, cmdline = parser.parse_known_args(argv)
-		cmdline = cmdline if not ('--' in cmdline) else cmdline[cmdline.index('--')+1:]
+		cmdline = cmdline[1:] if not ('--' in cmdline) else cmdline[cmdline.index('--')+1:]
 	except Exception as e:
 		sub_log.log(e.message, "ERROR")
 		sub_log.submit_fail("Incorrect options to submit.py")
@@ -104,9 +104,8 @@ def main(argv=sys.argv):
 	scheduler_properties['nodes'] = nodes
 	scheduler_properties['ppn'] = ppn
 	
-	#TODO: With the queue chosen, we need to enforce maximum walltime
+	
 	#TOOD: With the number of cores chosen, we need to enforce maximum SU usage by altering the walltime.
-	#
 	
 	scheduler_properties['runminutes'] = int(ceil(float(scheduler_properties['runhours'])*60))
 	
@@ -123,7 +122,7 @@ def main(argv=sys.argv):
 											resource_configuration,
 											{'CIPRESNOTIFYURL':cmdline_options.CIPRESNOTIFYURL},
 											job_properties,
-											{'env_var_string':','.join(['%s=%s' % (i,j) for i,j in  scheduler_properties['queue'].env_vars_dict.iteritems()])},
+											{'env_vars_string':','.join(['%s=%s' % (i,j) for i,j in  scheduler_properties['queue'].env_vars_dict.iteritems()])},
 											scheduler_properties,
 											{'cmdline':' '.join(cmdline)})
 						)
@@ -136,6 +135,7 @@ def main(argv=sys.argv):
 	jobid=None
 	try:
 		jobid = myBatchSystem.submit(created_files[0], scheduler_properties)
+		jobid = jobid.strip()
 	except TooManyJobs as too:
 		sub_log.log(too.message,"ERROR")
 		sub_log.submit_fail("There were too many jobs enqueued.",status=2,terminate=True)
@@ -144,9 +144,15 @@ def main(argv=sys.argv):
 		sub_log.submit_fail("There was some error submitting the job to the cluster system",terminate=True)
 		
 	
-	#TODO: Write jobid back to _JOBINFO.TXT
+	#Write jobid back to _JOBINFO.TXT
+	try: 
+		with open("_JOBINFO.TXT","a") as JOBINFO_FILE:
+			JOBINFO_FILE.write("\n%s\n" % jobid)
+	except:
+		sub_log.log("Unable to write to _JOBINFO.TXT, but the job was submitted, so we can't back out now.","ERROR")
 	
-	sub_log.jobid = jobid.strip().split('.')[0]
+	
+	sub_log.jobid = jobid.split('.')[0]
 	sub_log.submit_success()
 
 

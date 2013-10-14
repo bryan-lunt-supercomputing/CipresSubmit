@@ -39,7 +39,6 @@ curl <%CIPRESNOTIFYURL%>\&status=START
 
 export CIPRES_THREADSPP=<%threads_per_process%>
 export CIPRES_NP=<%mpi_processes%>
-#CIPRES_NP should be ppn*nodes, the total number of cpus for the job. (Can't we get that from PBS?)
 
 batch_command.cmdline 1>stdout.txt 2>stderr.txt
 

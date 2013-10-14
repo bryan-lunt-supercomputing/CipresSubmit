@@ -61,6 +61,10 @@ def load_scheduler_conf(filename="scheduler.conf"):
 	
 	with open(filename) as infile:
 		scheduler_properties.load(infile)
+		
+	#TODO: Override illegal values, such as 0?
+	
+	
 	return dict(scheduler_properties)
 
 
