@@ -1,0 +1,4 @@
+#!/bin/bash
+touch $1.submitted
+echo 955325.gordon-fe2.local
+exit 0

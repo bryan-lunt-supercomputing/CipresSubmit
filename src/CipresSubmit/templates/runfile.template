@@ -40,7 +40,7 @@ curl <%CIPRESNOTIFYURL%>\&status=START
 export CIPRES_THREADSPP=<%threads_per_process%>
 export CIPRES_NP=<%mpi_processes%>
 
-batch_command.cmdline 1>stdout.txt 2>stderr.txt
+./batch_command.cmdline 1>stdout.txt 2>stderr.txt
 
 echo Job finished at $(date) > done.txt
 
