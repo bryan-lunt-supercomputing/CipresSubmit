@@ -91,6 +91,7 @@ def main(argv=sys.argv):
 	
 	
 	#TODO: This is where we should execute the pre-run script. I guess.
+	#TOOLNAME_prerun cmdline
 	
 	
 	
@@ -142,6 +143,8 @@ def main(argv=sys.argv):
 		sub_log.log(e.message,"ERROR")
 		sub_log.submit_fail("There was some error submitting the job to the cluster system",terminate=True)
 		
+	
+	#TODO: Write jobid back to _JOBINFO.TXT
 	
 	sub_log.jobid = jobid.strip().split('.')[0]
 	sub_log.submit_success()
