@@ -147,7 +147,7 @@ def main(argv=sys.argv):
 	#Write jobid back to _JOBINFO.TXT
 	try: 
 		with open("_JOBINFO.TXT","a") as JOBINFO_FILE:
-			JOBINFO_FILE.write("\n%s\n" % jobid)
+			JOBINFO_FILE.write("\nJOBID=%s\n" % jobid)
 	except:
 		sub_log.log("Unable to write to _JOBINFO.TXT, but the job was submitted, so we can't back out now.","ERROR")
 	
