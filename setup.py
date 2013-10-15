@@ -17,7 +17,7 @@ setup(name="CipresSubmit",
         author_email="blunt@sdsc.edu",
         package_dir={'':'src'},
         packages=["CipresSubmit",'CipresSubmit.hosts','CipresSubmit.schema','CipresSubmit.SubmitEnv','CipresSubmit.templates'],
-        package_data={'CipresSubmit.templates':['*.template'], 'CipresSubmit.hosts':['*.xml']},
+        package_data={'CipresSubmit.templates':['*.template'], 'CipresSubmit.hosts':['*.xml'], 'CipresSubmit':['cipressubmit.cfg']},
         scripts=find_all_scripts("scripts") + ['src/submit.py'],
         install_requires=["pystache>=0.5.3", "PyXB>=1.2.2"],
 	)
