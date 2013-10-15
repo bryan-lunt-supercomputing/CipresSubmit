@@ -26,6 +26,8 @@ def __config_to_str_dict(config):
 def load_configs():
 	baseconfig = CFGP.ConfigParser()
 	#setup defaults.
+	baseconfig.add_section('general')
+	baseconfig.set('general','job_status_email',None)
 	baseconfig.add_section('templates')
 	baseconfig.set('templates','templatedir',None)
 	baseconfig.add_section('hosts')

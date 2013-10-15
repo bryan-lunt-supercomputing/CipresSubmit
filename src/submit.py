@@ -105,7 +105,7 @@ def main(argv=sys.argv):
 	scheduler_properties['ppn'] = ppn
 	
 	
-	#TOOD: With the number of cores chosen, we need to enforce maximum SU usage by altering the walltime.
+	#TODO: With the number of cores chosen, we need to enforce maximum SU usage by altering the walltime.
 	
 	scheduler_properties['runminutes'] = int(ceil(float(scheduler_properties['runhours'])*60))
 	
@@ -118,7 +118,7 @@ def main(argv=sys.argv):
 			template_string = STemp.load_template(template_entry.filename,global_settings['templates']['templatedir'])
 			outfile.write( STemp.execute_template(template_string,
 											template_entry.parameters,
-											global_settings,
+											{'job_status_email': global_settings['general']['job_status_email']},
 											resource_configuration,
 											{'CIPRESNOTIFYURL':cmdline_options.CIPRESNOTIFYURL},
 											job_properties,
