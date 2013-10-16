@@ -25,7 +25,7 @@ export MODULEPATH=/home/diag/jpg/modulefiles/gordon/applications:$MODULEPATH
 				<cores-increment>8</cores-increment>
 				<max-run-hours>336.0</max-run-hours>
 				<env-vars>
-					<env name="QOS">2</env>
+					<env name="QOS">10</env>
 				</env-vars>
 				<node-properties>
 					<property>native</property>
