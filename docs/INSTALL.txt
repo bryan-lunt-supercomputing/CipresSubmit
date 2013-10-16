@@ -1,0 +1,44 @@
+This document explains the basics of installing submit.py, specifically, into a CIPRES environment.
+
+See readme.pdf for detailed explanations of various config files.
+
+= Creating a virtualenv =
+You should probably create a virtual python installation for CipresSubmit.
+
+If you have a modules based environment, load the latest python:
+
+>module load python
+
+Then, in any case:
+>virtualenv /where/to/create/virtualenvironment
+
+
+This creates a file hierarchy that looks like a python installation:
+
+/where/to/create/virtualenvironment/bin
+/where/to/create/virtualenvironment/lib
+/where/to/create/virtualenvironment/lib/site-packages
+
+
+Now, install the required packages for CipresSubmit into that virtualenv:
+
+/where/to/create/virtualenvironment/bin/pip install -r /scripts/CipresSubmit/requirements.txt
+
+= Installing the program =
+
+CipresSubmit is included in the CIPRES sdk at /scripts/CipresSubmit
+
+To install via file-copy (instead of using the installer) simply copy the contents of the /scripts/CipresSubmit/src/* to the someplace on your path, such as the CIPRES scripts directory:
+
+
+= Setting up .rc files =
+
+The Cipres SDK properties file used for building the SDK contains properties for an .rc file to be sourced when connecting to remote resources.
+
+These files are specified, though, for example:
+teragrid.gordon.rc=/project/ps-ngbt/home/cipres/.bash_profile
+
+Edit this (or create a new) .rc file to:
+*Load the python module if your environment is module based.
+*prepend the python virtualenv to the path:
+	export PATH=/where/to/create/virtualenvironment/bin:$PATH

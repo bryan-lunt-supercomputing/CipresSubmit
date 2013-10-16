@@ -1,2 +1,2 @@
-ERROR : Too Many Jobs Enqueued.
-FAILURE : There were too many jobs enqueued.
+ERROR : Error invoking qsub:  No such file or directory
+FAILURE : There was some error submitting the job to the cluster system

@@ -1,3 +1,2 @@
-CipresSubmit
 pystache>=0.5.3
 PyXB==1.2.3
