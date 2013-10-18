@@ -74,6 +74,11 @@ def main(argv=sys.argv):
 	if cmdline_options.account is not None:
 		job_properties['account'] = cmdline_options.account
 	
+	#TODO: This is where we should execute the pre-run script. I guess.
+	#Doing it here would allow a pre-run script to alter scheduler.conf, if it wants to.
+	#TOOLNAME_prerun cmdline
+	
+	
 	#Read the scheduler.conf file
 	try:
 		scheduler_properties = SConfig.load_scheduler_conf('scheduler.conf')
@@ -87,11 +92,15 @@ def main(argv=sys.argv):
 	
 	#ENVIRONMENT IS PREPARED
 	
+	#Direct jobs finish here.
+	if scheduler_properties['jobtype'] == "direct":
+		try:
+			jobid = execute_direct()
+			sub_log.submit_success()
+		except:
+			raise Exception("THIS CODE IS NOT FINISHED")
 	
-	
-	
-	#TODO: This is where we should execute the pre-run script. I guess.
-	#TOOLNAME_prerun cmdline
+
 	
 	
 	
