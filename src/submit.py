@@ -124,10 +124,10 @@ def main(argv=sys.argv):
 	if scheduler_properties['jobtype'] == "direct":
 		try:
 			jobid = submit_direct(cmdline, global_settings, resource_configuration, cmdline_options, job_properties, scheduler_properties)
-			sub_log.submit_success(jobid,terminate=True)
+			sub_log.submit_success(jobid)
 		except Exception as ns:
 			sub_log.log(ns.message,"ERROR")
-			sub_log.submit_fail("Problem submitting direct job.",terminate=True)
+			sub_log.submit_fail("Problem submitting direct job.")
 	
 
 	
@@ -175,10 +175,10 @@ def main(argv=sys.argv):
 		jobid = myBatchSystem.submit(created_files[0], scheduler_properties)
 	except TooManyJobs as too:
 		sub_log.log(too.message,"ERROR")
-		sub_log.submit_fail("There were too many jobs enqueued.",status=2,terminate=True)
+		sub_log.submit_fail("There were too many jobs enqueued.",status=2)
 	except Exception as e:
 		sub_log.log(e.message,"ERROR")
-		sub_log.submit_fail("There was some error submitting the job to the cluster system",terminate=True)
+		sub_log.submit_fail("There was some error submitting the job to the cluster system")
 	
 	#EXIT with success
 	sub_log.jobid = jobid

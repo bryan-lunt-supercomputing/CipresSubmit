@@ -52,7 +52,7 @@ class SubmitLogger(object):
 		return json.dumps(self.data,indent=4, separators=(',', ': '))
 	
 
-	def submit_fail(self,message,status=1,terminate=False):
+	def submit_fail(self,message,status=1,terminate=True):
 		if status != 2:
 			self.notify("START")
 			self.notify("DONE")
@@ -65,7 +65,7 @@ class SubmitLogger(object):
 		if terminate:
 			exit(status)
 
-	def submit_success(self,jobid=None,message=None,terminate=False):
+	def submit_success(self,jobid=None,message=None,terminate=True):
 		if jobid is None:
 			jobid = self.jobid
 		
