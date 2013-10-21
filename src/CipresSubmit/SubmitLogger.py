@@ -11,17 +11,6 @@ import pystache
 
 from math import ceil
 
-class JobInfoFile(dict):
-	def __init__(self,filename="./_JOBINFO.TXT"):
-		self.filename = filename
-	
-	def write(self):
-		f = open(self.filename,"w")
-		for i,j in self.iteritems():
-			f.write("%s=%s\n" %(str(i),str(j)))
-		f.close()
-
-
 class SubmitLogger(object):
 	"""
 	This class does double duty as both a storage container for environment, and a logging/notification system.
@@ -30,11 +19,11 @@ class SubmitLogger(object):
 	def __init__(self,jobdir=os.getcwd(),url=None):
 		self.jobid = "00000" #Placeholder
 		self.jobdir = jobdir
-		self.jobname = os.environ.get("WB_JOBID", "cipres-DPPDiv")
+		self.jobname = os.environ.get("WB_JOBID", "")
 		self.url = url
 		self.messages = list()
 		self.data = {'messages':self.messages}
-		self.jobinfofile = JobInfoFile()
+		self.jobinfofilename = '_JOBINFO.TXT'
 
 	def log(self,message,messagetype="INFO"):
 		self.messages.append("%s : %s" % (messagetype,message) )
@@ -80,7 +69,13 @@ class SubmitLogger(object):
 		if jobid is None:
 			jobid = self.jobid
 		
-		self.jobinfofile['JOBID'] = jobid
+		#Write jobid back to _JOBINFO.TXT
+		try: 
+			with open(self.jobinfofilename,"a") as JOBINFO_FILE:
+				JOBINFO_FILE.write("\nJOBID=%s\n" % jobid)
+		except:
+			self.log("Unable to write to _JOBINFO.TXT, but the job was submitted, so we can't back out now.","ERROR")
+		
 		
 		print "jobid=%i" % int(jobid.split('.')[0])
 		

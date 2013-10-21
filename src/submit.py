@@ -19,10 +19,38 @@ from CipresSubmit.SubmitEnv.__init__ import TooManyJobs
 
 import stat
 
+
+
+import subprocess
+def submit_direct(cmdline, global_settings, resource_configuration, cmdline_options, job_properties, scheduler_properties):
+	
+	#breakign these out to separate lists gives us the option of making them empty if we want to omit something.
+	ACCOUNT_OPTIONS = ['--account', job_properties.get('account',resource_configuration.account)]
+	URL_OPTIONS = ['--url', cmdline_options.CIPRESNOTIFYURL]
+	JOBEMAIL_OPTIONS = ['--email', global_settings['general']['job_status_email']]
+	
+	try:
+		direct_submitter = subprocess.Popen(cmdline + ACCOUNT_OPTIONS + URL_OPTIONS + JOBEMAIL_OPTIONS, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		stdout, stderr   = direct_submitter.communicate()
+		exit_value       = direct_submitter.returncode
+	except Exception as e:
+		raise SEnv.NotSubmit("Could not submit direct job: " + e.message)
+	
+	if exit_value != 0:
+		raise SEnv.NotSubmit("Could not submit direct job:\n STDOUT: " + stdout + "\n\nSTDERR:\n" + stderr + "\n")
+	
+	firstline = stdout.splitlines()
+	if len(firstline) <= 0:
+		raise Exception("Job appeared to submit properly, but no STDOUT from direct job script.")
+	
+	JOBID = firstline[0].strip()
+	return JOBID
+	
+
 def main(argv=sys.argv):
 	"""
     Usage is:
-    submit.py [id=account] <url> <commandline> 
+    submit.py [--account] <url> <commandline> 
     Run from the working dir of the job which must contain (in addition
     to the job files) a file named scheduler.conf with scheduler properties for the job.
 
@@ -95,10 +123,11 @@ def main(argv=sys.argv):
 	#Direct jobs finish here.
 	if scheduler_properties['jobtype'] == "direct":
 		try:
-			jobid = execute_direct()
-			sub_log.submit_success()
-		except:
-			raise Exception("THIS CODE IS NOT FINISHED")
+			jobid = submit_direct(cmdline, global_settings, resource_configuration, cmdline_options, job_properties, scheduler_properties)
+			sub_log.submit_success(jobid,terminate=True)
+		except Exception as ns:
+			sub_log.log(ns.message,"ERROR")
+			sub_log.submit_fail("Problem submitting direct job.",terminate=True)
 	
 
 	
@@ -144,24 +173,15 @@ def main(argv=sys.argv):
 	jobid=None
 	try:
 		jobid = myBatchSystem.submit(created_files[0], scheduler_properties)
-		jobid = jobid.strip()
 	except TooManyJobs as too:
 		sub_log.log(too.message,"ERROR")
 		sub_log.submit_fail("There were too many jobs enqueued.",status=2,terminate=True)
 	except Exception as e:
 		sub_log.log(e.message,"ERROR")
 		sub_log.submit_fail("There was some error submitting the job to the cluster system",terminate=True)
-		
 	
-	#Write jobid back to _JOBINFO.TXT
-	try: 
-		with open("_JOBINFO.TXT","a") as JOBINFO_FILE:
-			JOBINFO_FILE.write("\nJOBID=%s\n" % jobid)
-	except:
-		sub_log.log("Unable to write to _JOBINFO.TXT, but the job was submitted, so we can't back out now.","ERROR")
-	
-	
-	sub_log.jobid = jobid.split('.')[0]
+	#EXIT with success
+	sub_log.jobid = jobid
 	sub_log.submit_success()
 
 

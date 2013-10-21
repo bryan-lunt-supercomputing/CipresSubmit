@@ -19,8 +19,8 @@ class PBSBatchEnvironment(BatchEnvironment):
 		try:
 			qsub_proc = subprocess.Popen(['qsub',jobfilename],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 			qsub_retval = qsub_proc.wait()
-			qsub_stdout = qsub_proc.stdout.read()
-			qsub_stderr = qsub_proc.stderr.read()
+			qsub_stdout = qsub_proc.stdout.read().strip()
+			qsub_stderr = qsub_proc.stderr.read().strip()
 		except Exception as e:
 			raise NotSubmit("Error invoking qsub: " + e.message + " " + e.strerror)
 		
