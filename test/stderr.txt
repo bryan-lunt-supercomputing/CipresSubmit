@@ -1,2 +1,2 @@
-ERROR : Error invoking qsub:  No such file or directory
-FAILURE : There was some error submitting the job to the cluster system
+ERROR : 'list' object has no attribute 'strip'
+FAILURE : Problem submitting direct job.

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource name="TSCC" xmlns="http://www.phylog.org/submit/resource">
+	<hosts>
+	    <!-- <host name="tscc-login1.sdsc.edu"/> -->
+		<host pattern="tscc-.*\.sdsc\.edu"/>
+	</hosts>
+	<account>
+		<accountstr>cipres_test</accountstr>
+	</account>
+	<batch-system type="PBS"> <!-- Setup an XML namespace for that? -->
+		<templates>
+			<template name="batch_command.run" filename="runfile.template">
+				<param name="cluster_header">
+source /etc/profile.d/modules.sh
+				</param>
+			</template>
+			<template name="batch_command.cmdline" filename="cmdfile.template">
+			<!-- Who knows what other templates we'd want in the future. Actually, we will execute all templates given, but qsub the first one. -->
+			</template>
+		</templates>
+		<queues>
+			<queue id="shared" name="hotel">
+				<cores-per-node>16</cores-per-node>
+				<cores-increment>1</cores-increment>
+				<max-run-hours>168.0</max-run-hours>
+				<env-vars>
+				</env-vars>
+				<node-properties>
+				</node-properties>
+			</queue>
+			<queue id="normal" name="hotel">
+				<cores-per-node>16</cores-per-node> <!-- cores-increment defaults to the same value as cores-per-node if not given. -->
+				<max-run-hours>168.0</max-run-hours>
+				<env-vars>
+				</env-vars>
+				<node-properties>
+				</node-properties>
+			</queue>
+		</queues>
+	</batch-system>
+</resource>
