@@ -1,3 +1,7 @@
 /batch_command.cmdline
 /batch_command.run
 *.submitted
+_JOBINFO.TXT
+scheduler.conf
+stderr.txt
+stdout.txt

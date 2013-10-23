@@ -22,30 +22,11 @@ If you have Python on your system, you can skip this step.
 
 TODO: Write this?
 
-## Bootstraping local installations ##
-If you have pip installed, skip to after the PIP step, regardless of other things installed.
-
-User-local Python scripts are usually stored in "~/.local"
-
-### Upgrading setuptools ###
-If your setuptools has a "--user" command line option, you can skip this step.
-
-Download ez_setup.py ( https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py )
-
-	>python ez_setup.py --user
-
-### Installing Pip ###
-If your site has pip installed, skip this step.
-
-With a newer easy_install You can do this:
-	>easy_install --user pip
-
-If you had to install setuptools:
-	>~/.local/bin/easy_install --user pip
-
-### Installing virtualenv ###
+## Installing virtualenv ##
 If you have virtualenv installed, you can skip this step.
+If you don't want to install virtualenv, or can't, you can go to the step "Using a self-contained installer"
 
+### Using pip ###
 Now, if you have pip installed, and on the path (either your own, or a system provided one) you can do:
 
 	>pip install --user virtualenv
@@ -53,31 +34,46 @@ OR
 	>~/.local/bin/pip install --user virtualenv
 
 
-
 ## Creating a virtualenv ##
-Begin this step once you have virtualenv installed.
+
 You should probably create a virtual Python installation for CipresSubmit.
+
+virtualenv creates a virtual python installation that can have its own separate packages directory, but still benefit from site-wide package installations.
+
+It creates a file hierarchy that looks like a Python installation:
+	/where/to/create/virtualenvironment/bin
+	/where/to/create/virtualenvironment/lib
+	/where/to/create/virtualenvironment/lib/site-packages
+
+That new environment will contain the pip installer and other necessary tools.
+
+NOTE: When you use the pip from a virtualenv, you should NOT use the "--user" option.
+
+
+### Using a self-contained installer ###
+virtualenv has a self-contained installer avaliable at:
+	https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.10.1.tar.gz
+
+When untarred, that will contain a file named:
+	virtualenv.py
+
+With the correct (2.7) Python binary, run:
+	>python virtualenv.py /where/to/create/virtualenvironment
+
+
+### Using an installed virtualenv system ###
 
 If you have a modules based environment, load the latest Python:
 	>module load python
 
 Then, in any case:
 	>virtualenv /where/to/create/virtualenvironment
-(OR >~/.local/bin/virtualenv /where/to/create/virtualenvironment )
 
-This creates a file hierarchy that looks like a Python installation:
-	/where/to/create/virtualenvironment/bin
-	/where/to/create/virtualenvironment/lib
-	/where/to/create/virtualenvironment/lib/site-packages
 
-Now, install the required packages for CipresSubmit into that virtualenv:
+# Installing Dependencies #
+
+Now, install the required packages for CipresSubmit into the virtualenv you created earlier.
 	/where/to/create/virtualenvironment/bin/pip install -r /scripts/CipresSubmit/requirements.txt
-
-*****
-NOTE: These virtual environments are self-contained. They do not reference anything from "~/.local",
-so if you have multiple resources which share a home directory, but are somehow otherwise incompatible, you can re-do the bootstrapping steps for each resource.
-
-NOTE: WHen you use the pip from a virtualenv, you should NOT use the "--user" option.
 
 
 # Installing the program #
