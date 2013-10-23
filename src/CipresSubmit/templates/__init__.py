@@ -46,7 +46,7 @@ import os.path
 import pystache
 
 def execute_template(template_string, *args, **kwargs):
-	therenderer = pystache.Renderer()
+	therenderer = pystache.Renderer(escape=lambda x:x)
 	return therenderer.render(template_string, *args, **kwargs)
 
 def load_template(template_filename,template_directory=None):

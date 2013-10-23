@@ -29,6 +29,7 @@ source /etc/profile.d/modules.sh
 				<cores-per-node>32</cores-per-node> <!-- cores-increment defaults to the same value as cores-per-node if not given. -->
 				<max-run-hours>336.0</max-run-hours>
 				<env-vars>
+					<env name="QOS">2</env>
 				</env-vars>
 				<node-properties>
 				</node-properties>
