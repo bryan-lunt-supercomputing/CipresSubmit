@@ -25,6 +25,7 @@ TODO: Write this?
 ## Installing virtualenv ##
 If you have virtualenv installed, you can skip this step.
 If you don't want to install virtualenv, or can't, you can go to the step "Using a self-contained installer"
+	https://pypi.python.org/pypi/virtualenv
 
 ### Using pip ###
 Now, if you have pip installed, and on the path (either your own, or a system provided one) you can do:
@@ -52,6 +53,7 @@ NOTE: When you use the pip from a virtualenv, you should NOT use the "--user" op
 
 ### Using a self-contained installer ###
 virtualenv has a self-contained installer avaliable at:
+	https://pypi.python.org/pypi/virtualenv
 	https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.10.1.tar.gz
 
 When untarred, that will contain a file named:

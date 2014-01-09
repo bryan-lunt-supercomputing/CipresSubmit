@@ -50,12 +50,12 @@ def submit_direct(cmdline, global_settings, resource_configuration, cmdline_opti
 def main(argv=sys.argv):
 	"""
     Usage is:
-    submit.py [--account] <url> <commandline> 
+    submit.py [--account <chargecode>] [--url <url>] -- <commandline> 
     Run from the working dir of the job which must contain (in addition
     to the job files) a file named scheduler.conf with scheduler properties for the job.
 
-    id=<chargecode> if present gives the project to charge the job to.
-    Url is url of the submitting website including taskid parameter.
+    <chargecode>, if present, gives the project to charge the job to.
+    Url is the url of the submitting website including the taskid parameter.
 
     Returns 0 with "jobid=<jobid>" on stdout if job submitted ok
     Returns 1 with multiline error message on stdout if error.
