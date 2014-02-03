@@ -7,7 +7,7 @@ Created on Jul 11, 2013
 import os
 import sys
 
-from math import ceil
+from math import ceil as __ceil
 
 import CipresSubmit.pyjavaproperties as Props
 from CipresSubmit.SubmitLogger import SubmitLogger
@@ -74,12 +74,15 @@ def main(argv=sys.argv):
 	parser.add_argument('--url', metavar="URL", dest="CIPRESNOTIFYURL", type=str,
 					help="Notification URL")
 	
+	parser.add_argument('--dry-run', dest='DRYRUN', action="store_true", help="Parse all inputs, build all outputs, don't submit job.")
+	
 	try:
 		cmdline_options, cmdline = parser.parse_known_args(argv)
 		cmdline = cmdline[1:] if not ('--' in cmdline) else cmdline[cmdline.index('--')+1:]
 	except Exception as e:
 		sub_log.log(e.message, "ERROR")
 		sub_log.submit_fail("Incorrect options to submit.py")
+		return 1
 	
 	
 	#READ BASIC CONFIGURATIONS
@@ -98,6 +101,7 @@ def main(argv=sys.argv):
 	except Exception as e:
 		sub_log.log(e.message, "ERROR")
 		sub_log.submit_fail("No '_JOBINFO.TXT' or it could not be parsed.")
+		return 1
 	
 	if cmdline_options.account is not None:
 		job_properties['account'] = cmdline_options.account
@@ -113,6 +117,7 @@ def main(argv=sys.argv):
 	except Exception as e:
 		sub_log.log(e.message, "ERROR")
 		sub_log.submit_fail("No 'scheduler.conf' or it could not be parsed.")
+		return 1
 	
 	
 	#_JOBINFO.TXT has told us what resource we are running on, so open that resource
@@ -125,9 +130,11 @@ def main(argv=sys.argv):
 		try:
 			jobid = submit_direct(cmdline, global_settings, resource_configuration, cmdline_options, job_properties, scheduler_properties)
 			sub_log.submit_success(jobid)
+			return 0
 		except Exception as ns:
 			sub_log.log(ns.message,"ERROR")
 			sub_log.submit_fail("Problem submitting direct job.")
+			return 1
 	
 
 	
@@ -145,14 +152,14 @@ def main(argv=sys.argv):
 	
 	#TODO: With the number of cores chosen, we need to enforce maximum SU usage by altering the walltime.
 	
-	scheduler_properties['runminutes'] = int(ceil(float(scheduler_properties['runhours'])*60))
+	scheduler_properties['runminutes'] = int(__ceil(float(scheduler_properties['runhours'])*60))
 	
 	
 	#Execute all templates
-	created_files = list()
+	created_files = list()										#keep track of what files we've created, needed for submission
 	for template_entry in resource_configuration.templates:
-		created_files.append(template_entry.name)
-		with open(template_entry.name,"w") as outfile:
+		created_files.append(template_entry.name)				#keep track of what files we've created, needed for submission
+		with open(template_entry.name,"w") as outfile:			#context manager for the template output file
 			template_string = STemp.load_template(template_entry.filename,global_settings['templates']['templatedir'])
 			outfile.write( STemp.execute_template(template_string,
 											template_entry.parameters,
@@ -164,25 +171,31 @@ def main(argv=sys.argv):
 											scheduler_properties,
 											{'cmdline':' '.join(cmdline)})
 						)
-		os.chmod(template_entry.name,stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH )
+		os.chmod(template_entry.name,stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH ) #make the template executable
 	
 	
 	
-	
-	#Actually submit the job, which should be the first template.
-	jobid=None
-	try:
-		jobid = myBatchSystem.submit(created_files[0], scheduler_properties)
-	except TooManyJobs as too:
-		sub_log.log(too.message,"ERROR")
-		sub_log.submit_fail("There were too many jobs enqueued.",status=2)
-	except Exception as e:
-		sub_log.log(e.message,"ERROR")
-		sub_log.submit_fail("There was some error submitting the job to the cluster system")
+	if cmdline_options.DRYRUN:
+		jobid = "8888888.test"
+	else:
+		#Actually submit the job, which should be the first template.
+		jobid=None
+		try:
+			jobid = myBatchSystem.submit(created_files[0], scheduler_properties)
+		except TooManyJobs as too:
+			sub_log.log(too.message,"ERROR")
+			sub_log.submit_fail("There were too many jobs enqueued.",status=2)
+			return 2
+		except Exception as e:
+			sub_log.log(e.message,"ERROR")
+			sub_log.submit_fail("There was some error submitting the job to the cluster system")
+			return 1
+		
 	
 	#EXIT with success
 	sub_log.jobid = jobid
-	sub_log.submit_success()
+	sub_log.submit_success(cores=scheduler_properties['nodes']*scheduler_properties['ppn'],ChargeFactor=the_queue.charge_factor)
+	return 0
 
 
 if __name__ == "__main__":

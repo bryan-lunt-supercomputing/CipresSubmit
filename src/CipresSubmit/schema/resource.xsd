@@ -112,10 +112,18 @@
     				<sequence>
     					<element name="property" type="string" maxOccurs="unbounded" minOccurs="0"></element>
     				</sequence>
-    			</complexType></element>
+    			</complexType>
+    		</element>
     	</sequence>
     	<attribute name="id" type="string"></attribute>
     	<attribute name="name" type="string"></attribute>
+    	<attribute name="charge-factor" default="1.0">
+    	    <simpleType>
+		    	<restriction base="float">
+		    		<minInclusive value="0.0"></minInclusive>
+		    	</restriction>
+		    </simpleType>
+    	</attribute>
     </complexType>
 
 

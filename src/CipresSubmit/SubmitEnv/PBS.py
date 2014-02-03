@@ -11,6 +11,8 @@ class PBSBatchEnvironment(BatchEnvironment):
 	"""
 	Implementation of BatchEnvironment for PBS systems.
 	
+	Uses the "qsub" command to submit jobs.
+	
 	"""
 	def __init__(self):
 		super(PBSBatchEnvironment, self).__init__()

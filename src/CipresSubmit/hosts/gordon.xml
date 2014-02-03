@@ -20,7 +20,7 @@ export MODULEPATH=/home/diag/jpg/modulefiles/gordon/applications:$MODULEPATH
 			</template>
 		</templates>
 		<queues>
-			<queue id="shared" name="shared">
+			<queue id="shared" name="shared" charge-factor="1.0">
 				<cores-per-node>16</cores-per-node>
 				<cores-increment>8</cores-increment>
 				<max-run-hours>336.0</max-run-hours>
@@ -32,7 +32,7 @@ export MODULEPATH=/home/diag/jpg/modulefiles/gordon/applications:$MODULEPATH
 					<property>flash</property>
 				</node-properties>
 			</queue>
-			<queue id="normal" name="normal">
+			<queue id="normal" name="normal" charge-factor="1.0">
 				<cores-per-node>16</cores-per-node> <!-- cores-increment defaults to the same value as cores-per-node if not given. -->
 				<max-run-hours>336.0</max-run-hours>
 				<env-vars>

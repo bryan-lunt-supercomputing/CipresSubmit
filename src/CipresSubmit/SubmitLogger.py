@@ -6,11 +6,6 @@ import os
 import urllib
 import json
 
-import pkgutil
-import pystache
-
-from math import ceil
-
 class SubmitLogger(object):
 	"""
 	This class does double duty as both a storage container for environment, and a logging/notification system.
@@ -52,7 +47,7 @@ class SubmitLogger(object):
 		return json.dumps(self.data,indent=4, separators=(',', ': '))
 	
 
-	def submit_fail(self,message,status=1,terminate=True):
+	def submit_fail(self,message):
 		if status != 2:
 			self.notify("START")
 			self.notify("DONE")
@@ -62,17 +57,19 @@ class SubmitLogger(object):
 
 		print message
 		print self.format_json()
-		if terminate:
-			exit(status)
 
-	def submit_success(self,jobid=None,message=None,terminate=True):
+	def submit_success(self,jobid=None,cores=None,message=None,ChargeFactor=None):
 		if jobid is None:
 			jobid = self.jobid
 		
 		#Write jobid back to _JOBINFO.TXT
 		try: 
 			with open(self.jobinfofilename,"a") as JOBINFO_FILE:
-				JOBINFO_FILE.write("\nJOBID=%s\n" % jobid)
+				if ChargeFactor is not None:
+					JOBINFO_FILE.write("\nChargeFactor=%s" % ChargeFactor )
+				if cores is not None:
+					JOBINFO_FILE.write("\ncores=%s" % cores )
+				JOBINFO_FILE.write("\nJOBID=%s\n" % jobid )
 		except:
 			self.log("Unable to write to _JOBINFO.TXT, but the job was submitted, so we can't back out now.","ERROR")
 		
@@ -84,5 +81,3 @@ class SubmitLogger(object):
 			self.log(message,"SUCCESS")
 		
 		print self.format_json()
-		if terminate:
-			exit(0)

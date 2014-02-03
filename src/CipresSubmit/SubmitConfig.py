@@ -16,6 +16,9 @@ import CipresSubmit.schema as SubmitXML
 import CipresSubmit.hosts as DefaultSubmitHosts
 
 def __config_to_str_dict(config):
+	"""
+	Convert a config object to a str->str dict.
+	"""
 	retdict = dict([
 				(sect_name,
 					dict( config.items(sect_name) )
@@ -24,6 +27,13 @@ def __config_to_str_dict(config):
 	return retdict
 
 def load_configs():
+	"""
+	Load the most basic config files.
+	
+	Loads "cipressubmit.cfg" from the python packages, then "~/.cipresssubmit.cfg" from the user's home directory, then "cipresssubmit.cfg" from the current directory.
+	
+	Each subsequent file overrides the last one.
+	"""
 	baseconfig = CFGP.ConfigParser()
 	#setup defaults.
 	baseconfig.add_section('general')
@@ -39,38 +49,74 @@ def load_configs():
 	
 	return __config_to_str_dict(baseconfig)
 
-def load_jobinfo(filename="_JOBINFO.TXT"):
-	job_info = Props.Properties()
+#Defaults for java .properties type files
+
+scheduler_conf_defaults = {"jobtype":"serial",
+						"mpi_processes":1,
+						"threads_per_process":1,
+						"runhours":0.5,
+						"node_exclusive":0,
+						"nodes":None,
+						"ppn":1,
+						"queue":None}
+
+jobinfo_txt_defaults = {"Task label":None,
+					"Task ID":None,
+					"Tool":None,
+					"created on":None,
+					"JobHandle":None,
+					"User ID":None,
+					"User Name":None,
+					"email":None,
+					"JOBID":None,
+					"resource":None,
+					'Output':None}#"ChargeFactor" and "cores" should not be in the file when submit.py is parsing it.
+
+def __load_properties(filename,defaults=dict(),error_on_unknown=False):
+	"""
+	Helper method for loading properties files with defaults.
 	
-	job_info.setProperty('jobdir', os.getcwd())
+	If a default of _None_ is given, then there is no default, but that name is recognized and does not raise an error.
+	"""
+	default_properties = Props.Properties()
+	for key, default_val in defaults.iteritems():
+		if default_val is not None:
+			default_properties.setProperty(key,str(default_val))
 	
 	with open(filename) as infile:
-		job_info.load(infile)
+		default_properties.load(infile)
+	
+	if error_on_unknown:
+		for onename in default_properties.propertyNames():
+			if not defaults.has_key(onename):
+				raise Exception("Invalid property '%s' in file %s " % (onename, filename))
+	
+	return default_properties
+	
+
+def load_jobinfo(filename="_JOBINFO.TXT"):
+	"""
+	Reads a _JOBINFO.TXT file and returns a dictionary.
+	Adds the additional property "jobdir" which is the current working directory.
+	"""
+	job_info = __load_properties(filename,defaults=jobinfo_txt_defaults, error_on_unknown=True)
+	job_info.setProperty('jobdir', os.getcwd())#reset this?
 	return dict(job_info)
 
 def load_scheduler_conf(filename="scheduler.conf"):
 	"""
 	We do this here because there are some defaults we want to enforce.
 	"""
-	scheduler_properties = Props.Properties()
-	
-	#Defaults
-	scheduler_properties.setProperty("jobtype","non_mpi")
-	scheduler_properties.setProperty("mpi_processes","1")
-	scheduler_properties.setProperty("threads_per_process","1")
-	scheduler_properties.setProperty("nodes","1")
-	scheduler_properties.setProperty("node_exclusive","0")
-	
-	with open(filename) as infile:
-		scheduler_properties.load(infile)
-		
-	#TODO: Override illegal values, such as 0?
-	
+	scheduler_properties = __load_properties(filename, defaults=scheduler_conf_defaults, error_on_unknown=True)
 	
 	return dict(scheduler_properties)
 
 
 def load_all_resource_XMLs(search_dir):
+	"""
+	Searches search_dir for resource.xml files. If search_dir is None, instead the package is searched for xmls installed with the code.
+	
+	"""
 	resource_xmls = dict()
 	
 	if search_dir is not None:

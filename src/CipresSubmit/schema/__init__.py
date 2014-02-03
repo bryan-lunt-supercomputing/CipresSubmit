@@ -27,6 +27,7 @@ class Queue(object):
 	def __init__(self, queue_object):
 		self.id = queue_object.id
 		self.name = queue_object.name
+		self.charge_factor = queue_object.charge_factor
 		self.cores_per_node = queue_object.cores_per_node
 		self.cores_increment = self.cores_per_node if (queue_object.cores_increment == None) else queue_object.cores_increment
 		self.max_nodes = queue_object.max_nodes

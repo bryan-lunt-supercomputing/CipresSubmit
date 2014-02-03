@@ -10,6 +10,20 @@ from CipresSubmit.schema import Queue
 
 
 def get_batch_instance(type="PBS",resource=None):
+	"""
+	Factory function to instantiate an instance an appropriate sub-class of "BatchEnvironment".
+	
+	Currently only PBS is implemented.
+	
+	@param type: A string giving the type for the batch system, one of "PBS"
+	@type type: str
+	
+	@param resource: The resource we should get a batch instance for.
+	@type resource: A resource object from the configs.
+	
+	@return: An instance from a sub-class of "BatchEnvironment".
+	@rtype: BatchEnvironment 
+	"""
 	retval = None
 	if resource is not None and resource.batch_system_type is not None:
 		type = resource.batch_system_type
