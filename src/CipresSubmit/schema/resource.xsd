@@ -68,36 +68,6 @@
 
     <complexType name="queueType">
     	<sequence>
-    		<element name="cores-per-node" maxOccurs="1"
-    			minOccurs="1">
-    			<simpleType>
-    				<restriction base="int">
-    					<minInclusive value="1"></minInclusive>
-    				</restriction>
-    			</simpleType>
-    		</element>
-    		<element name="cores-increment" maxOccurs="1"
-    			minOccurs="0">
-    			<simpleType>
-    				<restriction base="int">
-    					<minInclusive value="1"></minInclusive>
-    				</restriction>
-    			</simpleType>
-    		</element>
-    		<element name="max-nodes" maxOccurs="1" minOccurs="0">
-    			<simpleType>
-    				<restriction base="int">
-    					<minInclusive value="1"></minInclusive>
-    				</restriction>
-    			</simpleType>
-    		</element>
-    		<element name="max-run-hours" maxOccurs="1" minOccurs="0">
-    			<simpleType>
-    				<restriction base="float">
-    					<minInclusive value="0.0"></minInclusive>
-    				</restriction>
-    			</simpleType>
-    		</element>
     		<element name="env-vars" maxOccurs="1" minOccurs="1">
     			<complexType>
     				<sequence>
@@ -115,8 +85,36 @@
     			</complexType>
     		</element>
     	</sequence>
-    	<attribute name="id" type="string"></attribute>
-    	<attribute name="name" type="string"></attribute>
+    	<attribute name="id" type="string" use="required"></attribute>
+    	<attribute name="name" type="string" use="required"></attribute>
+    	<attribute name="cores-per-node" use="required">
+    		<simpleType>
+    			<restriction base="int">
+    				<minInclusive value="1"></minInclusive>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    	<attribute name="cores-increment" default="1">
+    		<simpleType>
+   				<restriction base="int">
+   					<minInclusive value="1"></minInclusive>
+   				</restriction>
+    		</simpleType>
+    	</attribute>
+   	    <attribute name="max-nodes">
+   			<simpleType>
+   				<restriction base="int">
+   					<minInclusive value="1"></minInclusive>
+   				</restriction>
+   			</simpleType>
+   		</attribute>
+   		<attribute name="max-run-hours">
+   			<simpleType>
+   				<restriction base="float">
+   					<minInclusive value="0.0"></minInclusive>
+   				</restriction>
+   			</simpleType>
+   		</attribute>
     	<attribute name="charge-factor" default="1.0">
     	    <simpleType>
 		    	<restriction base="float">

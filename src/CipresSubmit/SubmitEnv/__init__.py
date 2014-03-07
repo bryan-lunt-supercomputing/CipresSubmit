@@ -68,7 +68,7 @@ class BatchEnvironment(object):
 	
 	def choose_queue(self, job_properties):
 		"""
-		This impelements the logic that Terri and Bryan discussed and that was e-mailed around.
+		This implements the logic that Terri and Bryan discussed and that was e-mailed around.
 		In the future, I'd just like it to handle figuring out the cheapest queue to run a job on.
 		Choosing ppn and nodes could then be broken out to the actual submit step.
 		
@@ -92,30 +92,35 @@ class BatchEnvironment(object):
 		number_of_cpus = mpi_processes*threads_per_process
 		
 		normal_queue = self.queues_dict['normal'] # Exception if this doesn't exist
-		shared_queue = self.queues_dict.get('shared',None)
-		if shared_queue != None:
+		shared_queue = self.queues_dict.get('shared', None)
+		
+		#If there is a shared queue, determine if we should use it.
+		#The shared queue only gets used if we are submitting fewer tasks*threads than would take up a single node.
+		#It does not get used if "node_exclusive=1" was specified.
+		if ( not node_exclusive ) and shared_queue != None:
 			shared_queue_cpu_increment = shared_queue.cores_increment
 			shared_queue_max_cpus      = shared_queue.cores_per_node - shared_queue_cpu_increment
-			if (not node_exclusive) and ( number_of_cpus <= shared_queue_max_cpus ):
+			if ( number_of_cpus <= shared_queue_max_cpus ):
+				use_shared = True
 				retQ  = shared_queue
 				nodes = 1
-				ppn   = shared_queue_cpu_increment * int(
-														ceil(
+				ppn   = shared_queue_cpu_increment * int(ceil(
 															float(number_of_cpus) / shared_queue_cpu_increment
-															)
-														)
-				use_shared = True
+															))
 			#End if test for shared queue
-		#End test shared_queue existance
+		#End test shared_queue existence
+		
+		
+		#If the shared queue was not selected, select the normal queue
 		if ( not use_shared ): #Either we decided not to use a shared queue, or there was no shared queue.
 			retQ  = normal_queue
-			nodes = int(
-					ceil(
+			nodes = int(ceil(
 						float(number_of_cpus) / normal_queue.cores_per_node
-						)
-					)
+						))
 			ppn = normal_queue.cores_per_node
-		#End that
+		#End of setting up normal queue
+		
+		
 		return retQ, nodes, ppn	
 				
 			

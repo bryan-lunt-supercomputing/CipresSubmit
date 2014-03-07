@@ -16,18 +16,14 @@ source /etc/profile.d/modules.sh
 			</template>
 		</templates>
 		<queues>
-			<queue id="shared" name="shared">
-				<cores-per-node>32</cores-per-node>
-				<cores-increment>1</cores-increment>
-				<max-run-hours>336.0</max-run-hours>
+			<queue id="shared" name="shared" cores-per-node="32" cores-increment="1" max-run-hours="336.0">
 				<env-vars>
 				</env-vars>
 				<node-properties>
 				</node-properties>
 			</queue>
-			<queue id="normal" name="normal">
-				<cores-per-node>32</cores-per-node> <!-- cores-increment defaults to the same value as cores-per-node if not given. -->
-				<max-run-hours>336.0</max-run-hours>
+			<queue id="normal" name="normal" cores-per-node="32" cores-increment="32" max-run-hours="336.0">
+				<!-- cores-increment defaults to 1 if not given. -->
 				<env-vars>
 					<env name="QOS">2</env>
 				</env-vars>

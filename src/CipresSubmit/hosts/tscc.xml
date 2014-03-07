@@ -19,18 +19,14 @@ source /etc/profile.d/modules.sh
 			</template>
 		</templates>
 		<queues>
-			<queue id="shared" name="hotel">
-				<cores-per-node>16</cores-per-node>
-				<cores-increment>1</cores-increment>
-				<max-run-hours>168.0</max-run-hours>
+			<queue id="shared" name="hotel" cores-per-node="16" cores-increment="1" max-run-hours="168.0">
 				<env-vars>
 				</env-vars>
 				<node-properties>
 				</node-properties>
 			</queue>
-			<queue id="normal" name="hotel">
-				<cores-per-node>16</cores-per-node> <!-- cores-increment defaults to the same value as cores-per-node if not given. -->
-				<max-run-hours>168.0</max-run-hours>
+			<queue id="normal" name="hotel" cores-per-node="16" cores-increment="1" max-run-hours="168.0">
+				<!-- cores-increment defaults to the same value as cores-per-node if not given. -->
 				<env-vars>
 				</env-vars>
 				<node-properties>

@@ -29,7 +29,7 @@ class Queue(object):
 		self.name = queue_object.name
 		self.charge_factor = queue_object.charge_factor
 		self.cores_per_node = queue_object.cores_per_node
-		self.cores_increment = self.cores_per_node if (queue_object.cores_increment == None) else queue_object.cores_increment
+		self.cores_increment = queue_object.cores_increment
 		self.max_nodes = queue_object.max_nodes
 		self.max_run_hours = queue_object.max_run_hours
 		self.env_vars = [SimpleTuple(i.name,i.value()) for i in queue_object.env_vars.env]
