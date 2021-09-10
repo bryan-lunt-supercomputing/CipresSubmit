@@ -4,7 +4,7 @@ Created on Oct 3, 2013
 @author: lunt
 '''
 
-import resource as R
+from . import resource as R
 
 import logging 
 logger = logging.getLogger("pyxb.binding.basis")

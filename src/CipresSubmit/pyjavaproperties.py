@@ -70,7 +70,7 @@ class Properties(object):
 
     def __str__(self):
         s='{'
-        for key,value in self._props.items():
+        for key,value in list(self._props.items()):
             s = ''.join((s,key,'=',value,', '))
 
         s=''.join((s[:-2],'}'))
@@ -170,7 +170,7 @@ class Properties(object):
             # same property
             while line[-1] == '\\':
                 # Read next line
-                nextline = i.next()
+                nextline = next(i)
                 nextline = nextline.strip()
                 lineno += 1
                 # This line will become part of the value
@@ -219,13 +219,13 @@ class Properties(object):
 
         for f in found:
             srcKey = f[1:-1]
-            if self._props.has_key(srcKey):
+            if srcKey in self._props:
                 value = value.replace(f, self._props[srcKey], 1)
 
         self._props[key] = value.strip()
 
         # Check if an entry exists in pristine keys
-        if self._keymap.has_key(key):
+        if key in self._keymap:
             oldkey = self._keymap.get(key)
             self._origprops[oldkey] = oldvalue.strip()
         else:
@@ -259,15 +259,15 @@ class Properties(object):
 
         # For the time being only accept file input streams
         if type(stream) is not file:
-            raise TypeError,'Argument should be a file object!'
+            raise TypeError('Argument should be a file object!')
         # Check for the opened mode
         if stream.mode != 'r':
-            raise ValueError,'Stream should be opened in read-only mode!'
+            raise ValueError('Stream should be opened in read-only mode!')
 
         try:
             lines = stream.readlines()
             self.__parse(lines)
-        except IOError, e:
+        except IOError as e:
             raise
 
     def getProperty(self, key):
@@ -281,20 +281,20 @@ class Properties(object):
         if type(key) is str and type(value) is str:
             self.processPair(key, value)
         else:
-            raise TypeError,'both key and value should be strings!'
+            raise TypeError('both key and value should be strings!')
 
     def propertyNames(self):
         """ Return an iterator over all the keys of the property
         dictionary, i.e the names of the properties """
 
-        return self._props.keys()
+        return list(self._props.keys())
 
     def list(self, out=sys.stdout):
         """ Prints a listing of the properties to the
         stream 'out' which defaults to the standard output """
 
         out.write('-- listing properties --\n')
-        for key,value in self._props.items():
+        for key,value in list(self._props.items()):
             out.write(''.join((key,'=',value,'\n')))
 
     def store(self, out, header=""):
@@ -302,7 +302,7 @@ class Properties(object):
         with the optional 'header' """
 
         if out.mode[0] != 'w':
-            raise ValueError,'Steam should be opened in write mode!'
+            raise ValueError('Steam should be opened in write mode!')
 
         try:
             out.write(''.join(('#',header,'\n')))
@@ -316,7 +316,7 @@ class Properties(object):
                     out.write(''.join((prop,'=',self.escape(val),'\n')))
 
             out.close()
-        except IOError, e:
+        except IOError as e:
             raise
 
     def getPropertyDict(self):
@@ -346,10 +346,10 @@ if __name__=="__main__":
     p = Properties()
     p.load(open('test2.properties'))
     p.list()
-    print p
-    print p.items()
-    print p['name3']
+    print(p)
+    print(list(p.items()))
+    print(p['name3'])
     p['name3'] = 'changed = value'
-    print p['name3']
+    print(p['name3'])
     p['new key'] = 'new value'
     p.store(open('test2.properties','w'))

@@ -12,8 +12,8 @@ SCHEDULER_CONF_FILENAME ="scheduler.conf"
 JOBINFO_TXT_FILENAME = "_JOBINFO.TXT"
 
 def _write_properties(outfile,indict):
-	with file(outfile,"w") as OUTFILE:
-		for key,value in indict.iteritems():
+	with open(outfile,"w") as OUTFILE:
+		for key,value in indict.items():
 			OUTFILE.write("%s=%s\n" % (key.replace(' ','\\ '), value))
 
 TESTING_BASE=os.path.dirname(os.path.realpath(__file__))
@@ -28,7 +28,7 @@ class BasicTest(unittest.TestCase):
 		try:
 			os.mkdir(self.ONE_TEST_DIR)
 		except Exception as e:
-			print e
+			print(e)
 		
 		_write_properties(os.path.join(self.ONE_TEST_DIR,SCHEDULER_CONF_FILENAME), {'runhours':0.5 , 'mpi_processes':2, 'jobtype':'mpi', 'nodes':1})
 		_write_properties(os.path.join(self.ONE_TEST_DIR,JOBINFO_TXT_FILENAME), {'resource':'gordon'})

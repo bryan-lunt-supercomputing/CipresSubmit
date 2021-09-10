@@ -36,7 +36,7 @@ def qsub(script_path,env,envarg=None,l=None,N=None,W=None,V=True,A=None,M=None):
 	if envarg is not None:
 		localEnv.update(envarg)
 
-	localEnv = dict([(i,str(j)) for i,j in localEnv.iteritems() if j is not None])
+	localEnv = dict([(i,str(j)) for i,j in localEnv.items() if j is not None])
 
 	qsub_proc = subprocess.Popen(allArgs,env=localEnv,stdout=subprocess.PIPE)
 	qsub_retval = qsub_proc.wait()

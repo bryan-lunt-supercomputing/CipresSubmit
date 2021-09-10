@@ -5,7 +5,7 @@ Created on Oct 4, 2013
 '''
 
 from math import ceil
-import PBS
+from . import PBS
 from CipresSubmit.schema import Queue
 
 

@@ -4,11 +4,11 @@ Created on Oct 3, 2013
 @author: Bryan Lunt
 '''
 
-import pyjavaproperties as Props
+from . import pyjavaproperties as Props
 
 import pkg_resources
 
-import ConfigParser as CFGP
+import configparser as CFGP
 import os
 import os.path
 
@@ -37,11 +37,11 @@ def load_configs():
 	baseconfig = CFGP.ConfigParser()
 	#setup defaults.
 	baseconfig.add_section('general')
-	baseconfig.set('general','job_status_email',None)
+	baseconfig.set('general','job_status_email',"")
 	baseconfig.add_section('templates')
-	baseconfig.set('templates','templatedir',None)
+	baseconfig.set('templates','templatedir',"")
 	baseconfig.add_section('hosts')
-	baseconfig.set('hosts','resourcexmldir',None)
+	baseconfig.set('hosts','resourcexmldir',"")
 	#Load a global submit configuration but allow it to be overridden by a local configuration
 	
 	baseconfig.readfp(pkg_resources.resource_stream(__name__,"cipressubmit.cfg"),"default_config")
@@ -79,7 +79,7 @@ def __load_properties(filename,defaults=dict(),error_on_unknown=False):
 	If a default of _None_ is given, then there is no default, but that name is recognized and does not raise an error.
 	"""
 	default_properties = Props.Properties()
-	for key, default_val in defaults.iteritems():
+	for key, default_val in defaults.items():
 		if default_val is not None:
 			default_properties.setProperty(key,str(default_val))
 	
@@ -88,7 +88,7 @@ def __load_properties(filename,defaults=dict(),error_on_unknown=False):
 	
 	if error_on_unknown:
 		for onename in default_properties.propertyNames():
-			if not defaults.has_key(onename):
+			if onename not in defaults:
 				raise Exception("Invalid property '%s' in file %s " % (onename, filename))
 	
 	return default_properties
@@ -125,7 +125,7 @@ def load_all_resource_XMLs(search_dir):
 				if (not one_filename.endswith('.xml')):
 					continue
 				resource_object = SubmitXML.read_resource_file(os.path.join(root,one_filename))
-				resource_xmls[str(resource_object.name)] = resource_object								
+				resource_xmls[str(resource_object.name)] = resource_object
 	else: #Search dir none, default to resources packaged with the program.
 		python_resource_names = [i for i in pkg_resources.resource_listdir(DefaultSubmitHosts.__name__,'') if i.endswith('xml')]
 		for one_name in python_resource_names:

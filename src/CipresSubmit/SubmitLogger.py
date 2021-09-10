@@ -3,7 +3,7 @@ THis should be modified to be a python "logging" logger.
 """
 
 import os
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import json
 
 class SubmitLogger(object):
@@ -32,7 +32,7 @@ class SubmitLogger(object):
 		But, for the moment:
 		"""
 		try:
-			connection = urllib.urlopen(self.url+"&%s"%status)
+			connection = urllib.request.urlopen(self.url+"&%s"%status)
 			connection.read()
 			connection.close()
 		except:
@@ -55,8 +55,8 @@ class SubmitLogger(object):
 		self.log(message,"FAILURE")
 		self.write_errorfile()
 
-		print message
-		print self.format_json()
+		print(message)
+		print(self.format_json())
 
 	def submit_success(self,jobid=None,cores=None,message=None,ChargeFactor=None):
 		if jobid is None:
@@ -74,10 +74,10 @@ class SubmitLogger(object):
 			self.log("Unable to write to _JOBINFO.TXT, but the job was submitted, so we can't back out now.","ERROR")
 		
 		
-		print "jobid=%i" % int(jobid.split('.')[0])
+		print("jobid=%i" % int(jobid.split('.')[0]))
 		
 		
 		if message is not None:
 			self.log(message,"SUCCESS")
 		
-		print self.format_json()
+		print(self.format_json())
