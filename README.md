@@ -22,3 +22,6 @@ This program also has some components for understanding which queues are availab
 
 ## Documentation ##
 This was originally developed for in-house use, see the "DEV_NOTES" and "docs" directories for more comprehensive documentation.
+
+## Licenses ##
+This program itself is licensed under an MIT license, found in `LICENSE.txt`. It uses some external dependencies which have been directly included into the source tree, the license(s) for those are also provided.
